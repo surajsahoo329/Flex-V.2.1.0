@@ -18,7 +18,7 @@
             android:layout_height="75dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:background="@drawable/multilinetext_bg"
+            android:background="@drawable/solid_border"
             android:innerRadius="0dp"
             android:shape="ring"
             android:thicknessRatio="1.9"

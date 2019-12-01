@@ -35,7 +35,7 @@ public class RecyclerViewImageAdapter extends RecyclerView.Adapter<RecyclerViewI
 
         Log.d(TAG,"onCreateViewHolder: called.");
 
-        View view =LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_listitem, parent, false);
+        View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.list_company, parent, false);
         return new ViewHolder(view);
 
     }
