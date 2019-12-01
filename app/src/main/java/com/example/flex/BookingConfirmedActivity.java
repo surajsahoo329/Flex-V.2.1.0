@@ -62,7 +62,7 @@ public class BookingConfirmedActivity extends AppCompatActivity {
 
         Intent it = getIntent();
 
-        final int company = it.getIntExtra("company",0);
+        final int company=it.getIntExtra("company", 1);
         final String date = it.getStringExtra("date");
         final String time = it.getStringExtra("time");
         final String hours = it.getStringExtra("hours");
@@ -176,7 +176,7 @@ public class BookingConfirmedActivity extends AppCompatActivity {
             case 6:
                 it.putExtra("dtdc", "6");
                 break;
-            default:
+            case 7:
                 it.putExtra("ipost", "7");
                 break;
         }
