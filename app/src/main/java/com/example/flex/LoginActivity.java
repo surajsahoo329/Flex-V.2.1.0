@@ -42,58 +42,10 @@ public class LoginActivity extends AppCompatActivity {
     private String email, password;
     private Button btnLogin;
 
-    private TextWatcher EmailTextWatcher=new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            String usernameInput=etEmail.getText().toString().trim();
-            String passwordInput=etPassword.getText().toString().trim();
-
-            if (usernameInput.length() < 7) {
-                etEmail.setError("Not a valid email");
-            } else {
-
-                etEmail.setError(null);
-            }
-
-            btnLogin.setEnabled(usernameInput.length() >= 7 && passwordInput.length() >= 8);
-
-            if (usernameInput.length() >= 7 && passwordInput.length() >= 8)
-                btnLogin.setTextColor(Color.parseColor("#FFFFFF"));
-            else
-                btnLogin.setTextColor(Color.parseColor("#1DA1F2"));
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
-    private TextWatcher PasswordTextWatcher=new TextWatcher() {
+    private TextWatcher textWatcher=new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            String usernameInput=etEmail.getText().toString().trim();
-            String passwordInput=etPassword.getText().toString().trim();
-
-            if (usernameInput.length() < 7) {
-                etEmail.setError("Not a valid email");
-            } else {
-
-                etEmail.setError(null);
-            }
-
-            btnLogin.setEnabled(usernameInput.length() >= 7 && passwordInput.length() >= 8);
-
-            if (usernameInput.length() >= 7 && passwordInput.length() >= 8)
-                btnLogin.setTextColor(Color.parseColor("#FFFFFF"));
-            else
-                btnLogin.setTextColor(Color.parseColor("#1DA1F2"));
 
         }
 
@@ -103,16 +55,14 @@ public class LoginActivity extends AppCompatActivity {
             String usernameInput=etEmail.getText().toString().trim();
             String passwordInput=etPassword.getText().toString().trim();
 
-            if (passwordInput.length() < 8) {
+            if (usernameInput.length() == 0)
+                etEmail.setError("Please enter you email");
+            else if (passwordInput.length() < 8)
                 etPassword.setError("Password must have at least 8 characters");
-            } else {
 
-                etPassword.setError(null);
-            }
+            btnLogin.setEnabled(!usernameInput.isEmpty() && passwordInput.length() >= 8);
 
-            btnLogin.setEnabled(usernameInput.length() >= 7 && passwordInput.length() >= 8);
-
-            if (usernameInput.length() >= 7 && passwordInput.length() >= 8)
+            if (!usernameInput.isEmpty() && passwordInput.length() >= 8)
                 btnLogin.setTextColor(Color.parseColor("#FFFFFF"));
             else
                 btnLogin.setTextColor(Color.parseColor("#1DA1F2"));
@@ -124,6 +74,27 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     };
+
+    @Override
+    public void onBackPressed() {
+
+        new AlertDialog.Builder(this)
+                .setIcon(R.drawable.ic_launcher_round)
+                .setTitle("Closing App")
+                .setMessage("Do you want to close the app?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent it=new Intent(Intent.ACTION_MAIN);
+                        it.addCategory(Intent.CATEGORY_HOME);
+                        it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(it);
+
+                    }
+                })
+                .setNegativeButton("No", null).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,8 +170,8 @@ public class LoginActivity extends AppCompatActivity {
 
         }
 
-        etEmail.addTextChangedListener(EmailTextWatcher);
-        etPassword.addTextChangedListener(PasswordTextWatcher);
+        etEmail.addTextChangedListener(textWatcher);
+        etPassword.addTextChangedListener(textWatcher);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -311,28 +282,5 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
-    @Override
-    public void onBackPressed() {
-
-        new AlertDialog.Builder(this)
-                .setIcon(R.drawable.ic_launcher_round)
-                .setTitle("Closing App")
-                .setMessage("Do you want to close the app?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        Intent it=new Intent(Intent.ACTION_MAIN);
-                        it.addCategory(Intent.CATEGORY_HOME);
-                        it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(it);
-
-                    }
-                })
-                .setNegativeButton("No", null).show();
-    }
-
-
 
 }

@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -63,6 +64,8 @@ public class BookingFragment extends Fragment {
     private TextView tvIDate;
     private int row_index, column_index, dlFlag = 0, companyFlag = 0, slotFlagCheck ;
     private String strTime, strHours ;
+    Button btnBookSlot;
+    private int btnCounter=0;
 
     private DatabaseReference dbRef, sldbRef, dlRef;
     FirebaseAuth auth;
@@ -92,7 +95,7 @@ public class BookingFragment extends Fragment {
 
         getImages();
 
-        final Button btnBookSlot=parentHolder.findViewById(R.id.btnBookSlot);
+        btnBookSlot=parentHolder.findViewById(R.id.btnBookSlot);
         dbRef = FirebaseDatabase.getInstance().getReference();
         user= FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
@@ -109,7 +112,6 @@ public class BookingFragment extends Fragment {
         ArrayAdapter<String> arrWorkHours=new ArrayAdapter<>(refActivity, android.R.layout.simple_list_item_1, workHours);
         spWorkHours.setAdapter(arrWorkHours);
         spWorkHours.setOnItemSelectedListener(new workHoursClick());
-
 
         tvIDate=parentHolder.findViewById(R.id.tvInvisibleDate);
 
@@ -153,7 +155,12 @@ public class BookingFragment extends Fragment {
                             monthStr = "Dec";
 
                         etDate.setText(dayOfMonth + "-" + monthStr + "-" + year);
-                        tvIDate.setText(dayOfMonth+"-"+monthStr+"-"+year);
+                        tvIDate.setText(dayOfMonth + "-" + monthStr + "-" + year);
+                        ++btnCounter;
+                        if (btnCounter >= 3) {
+                            btnBookSlot.setEnabled(true);
+                            btnBookSlot.setTextColor(Color.parseColor("#FFFFFF"));
+                        }
 
                     }
                 }, year,month,date);
@@ -172,44 +179,9 @@ public class BookingFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(tvIDate.length()==0) {
-                    Snackbar.make(parentLayout,"Please enter your slot date",Snackbar.LENGTH_LONG)
-                            .setDuration(3000)
-                            .setAction("Close", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
+                if (row_index + column_index > 12) {
 
-                                }
-                            })
-                            .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                            .show();
-
-                } else if(row_index == 0) {
-                    Snackbar.make(parentLayout,"Please choose a start time",Snackbar.LENGTH_LONG)
-                            .setDuration(3000)
-                            .setAction("Close", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-
-                                }
-                            })
-                            .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                            .show();
-
-                } else if(column_index == 0) {
-                    Snackbar.make(parentLayout,"Please choose working hours",Snackbar.LENGTH_LONG)
-                            .setDuration(3000)
-                            .setAction("Close", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-
-                                }
-                            })
-                            .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                            .show();
-
-                } else if( row_index + column_index > 12) {
-                    Snackbar.make(parentLayout,"Invalid slot time chosen.",Snackbar.LENGTH_LONG)
+                    Snackbar.make(parentLayout, "Invalid slot time chosen.", Snackbar.LENGTH_LONG)
                             .setDuration(3000)
                             .setAction("Close", new View.OnClickListener() {
                                 @Override
@@ -221,52 +193,51 @@ public class BookingFragment extends Fragment {
                             .show();
                 } else {
 
-
-                    if(row_index == 1)
-                        strTime = "8 am";
-                    else if(row_index == 2)
-                        strTime = "9 am";
-                    else if(row_index == 3)
-                        strTime = "10 am";
-                    else if(row_index == 4)
-                        strTime = "11 am";
-                    else if(row_index == 5)
-                        strTime = "12 pm";
-                    else if(row_index == 6)
-                        strTime = "1 pm";
-                    else if(row_index == 7)
-                        strTime = "2 pm";
-                    else if(row_index == 8)
-                        strTime = "3 pm";
-                    else if(row_index == 9)
-                        strTime = "4 pm";
-                    else if(row_index == 10)
-                        strTime = "5 pm";
+                    if (row_index == 1)
+                        strTime="8 am";
+                    else if (row_index == 2)
+                        strTime="9 am";
+                    else if (row_index == 3)
+                        strTime="10 am";
+                    else if (row_index == 4)
+                        strTime="11 am";
+                    else if (row_index == 5)
+                        strTime="12 pm";
+                    else if (row_index == 6)
+                        strTime="1 pm";
+                    else if (row_index == 7)
+                        strTime="2 pm";
+                    else if (row_index == 8)
+                        strTime="3 pm";
+                    else if (row_index == 9)
+                        strTime="4 pm";
+                    else if (row_index == 10)
+                        strTime="5 pm";
                     else
-                        strTime = "6 pm";
+                        strTime="6 pm";
 
-                    if(column_index == 1)
-                        strHours = "2 hours";
-                    else if(column_index == 2)
-                        strHours = "3 hours";
-                    else if(column_index == 3)
-                        strHours = "4 hours";
-                    else if(column_index == 4)
-                        strHours = "5 hours";
-                    else if(column_index == 5)
-                        strHours = "6 hours";
-                    else if(column_index == 6)
-                        strHours = "7 hours";
-                    else if(column_index == 7)
-                        strHours = "8 hours";
-                    else if(column_index == 8)
-                        strHours = "9 hours";
-                    else if(column_index == 9)
-                        strHours = "10 hours";
-                    else if(column_index == 10)
-                        strHours = "11 hours";
+                    if (column_index == 1)
+                        strHours="2 hours";
+                    else if (column_index == 2)
+                        strHours="3 hours";
+                    else if (column_index == 3)
+                        strHours="4 hours";
+                    else if (column_index == 4)
+                        strHours="5 hours";
+                    else if (column_index == 5)
+                        strHours="6 hours";
+                    else if (column_index == 6)
+                        strHours="7 hours";
+                    else if (column_index == 7)
+                        strHours="8 hours";
+                    else if (column_index == 8)
+                        strHours="9 hours";
+                    else if (column_index == 9)
+                        strHours="10 hours";
+                    else if (column_index == 10)
+                        strHours="11 hours";
                     else
-                        strHours = "12 hours";
+                        strHours="12 hours";
 
                     new AlertDialog.Builder(refActivity)
                             .setIcon(R.drawable.ic_launcher_round)
@@ -276,31 +247,31 @@ public class BookingFragment extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
-                                    final ProgressDialog pd = ProgressDialog.show(refActivity,"Assigning slot","Please wait...",true);
+                                    final ProgressDialog pd=ProgressDialog.show(refActivity, "Assigning slot", "Please wait...", true);
 
-                                    dlRef = dbRef.child("DL");
+                                    dlRef=dbRef.child("DL");
 
-                                    ValueEventListener dlListener = new ValueEventListener() {
+                                    ValueEventListener dlListener=new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                                                uEmail = ds.child("userMail").getValue(String.class);
+                                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                                uEmail=ds.child("userMail").getValue(String.class);
 
-                                                if(checkMail.equals(uEmail)) {
-                                                    dlFlag = ds.child("userDLFlag").getValue(Integer.class);
-                                                    String date = ds.child("licenseExpiryDate").getValue(String.class);
+                                                if (checkMail.equals(uEmail)) {
+                                                    dlFlag=ds.child("userDLFlag").getValue(Integer.class);
+                                                    String date=ds.child("licenseExpiryDate").getValue(String.class);
                                                     @SuppressLint("SimpleDateFormat") SimpleDateFormat df=new SimpleDateFormat("dd-MMM-yyyy");
-                                                    Date strDate = null;
+                                                    Date strDate=null;
                                                     try {
                                                         assert date != null;
-                                                        strDate = df.parse(date);
+                                                        strDate=df.parse(date);
                                                     } catch (ParseException e) {
                                                         e.printStackTrace();
                                                     }
 
-                                                    Date currDate = Calendar.getInstance().getTime();
-                                                    if(dlFlag == 0) {
+                                                    Date currDate=Calendar.getInstance().getTime();
+                                                    if (dlFlag == 0) {
 
                                                         pd.dismiss();
 
@@ -314,9 +285,9 @@ public class BookingFragment extends Fragment {
                                                                 })
                                                                 .setActionTextColor(getResources().getColor(android.R.color.background_light))
                                                                 .show();
-                                                    } else if(currDate.compareTo(strDate) >= 0) {
+                                                    } else if (currDate.compareTo(strDate) >= 0) {
                                                         pd.dismiss();
-                                                        Snackbar.make(parentLayout,"Driving License expired",Snackbar.LENGTH_LONG)
+                                                        Snackbar.make(parentLayout, "Driving License expired", Snackbar.LENGTH_LONG)
                                                                 .setDuration(3000)
                                                                 .setAction("close", new View.OnClickListener() {
                                                                     @Override
@@ -328,20 +299,20 @@ public class BookingFragment extends Fragment {
                                                                 .show();
 
                                                     } else {
-                                                        sldbRef = dbRef.child("Slot");
-                                                        ValueEventListener slotListener = new ValueEventListener() {
+                                                        sldbRef=dbRef.child("Slot");
+                                                        ValueEventListener slotListener=new ValueEventListener() {
                                                             @Override
                                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                                                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                                                    uEmail = ds.child("userMail").getValue(String.class);
+                                                                    uEmail=ds.child("userMail").getValue(String.class);
 
-                                                                    if(checkMail.equals(uEmail)) {
-                                                                        final int slotFlag = ds.child("slotFlag").getValue(Integer.class);
+                                                                    if (checkMail.equals(uEmail)) {
+                                                                        final int slotFlag=ds.child("slotFlag").getValue(Integer.class);
 
-                                                                        if(slotFlag >=1 && slotFlag <= 7 ) {
+                                                                        if (slotFlag >= 1 && slotFlag <= 7) {
 
-                                                                            Snackbar.make(parentLayout,"Please finish your current slot's work first to book another slot",Snackbar.LENGTH_LONG)
+                                                                            Snackbar.make(parentLayout, "Please finish your current slot's work first to book another slot", Snackbar.LENGTH_LONG)
                                                                                     .setDuration(3000)
                                                                                     .setAction("Close", new View.OnClickListener() {
                                                                                         @Override
@@ -355,11 +326,11 @@ public class BookingFragment extends Fragment {
                                                                             pd.dismiss();
 
                                                                         } else {
-                                                                            final String date = tvIDate.getText().toString().trim();
-                                                                            final int startTimeIndex = row_index;
+                                                                            final String date=tvIDate.getText().toString().trim();
+                                                                            final int startTimeIndex=row_index;
 
-                                                                            dbRef = FirebaseDatabase.getInstance().getReference();
-                                                                            assRef = dbRef.child("Assignment");
+                                                                            dbRef=FirebaseDatabase.getInstance().getReference();
+                                                                            assRef=dbRef.child("Assignment");
 
                                                                             assRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                                                                 @Override
@@ -476,15 +447,15 @@ public class BookingFragment extends Fragment {
 
                                                                                             for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                                                                                                uEmail = ds.child("userMail").getValue(String.class);
-                                                                                                slotFlagCheck = ds.child("slotFlag").getValue(Integer.class);
+                                                                                                uEmail=ds.child("userMail").getValue(String.class);
+                                                                                                slotFlagCheck=ds.child("slotFlag").getValue(Integer.class);
 
                                                                                                 assert uEmail != null;
                                                                                                 if (uEmail.equals(checkMail) && (slotFlagCheck == 0 || slotFlagCheck == 8)) {
 
                                                                                                     id=ds.child("userId").getValue(String.class);
                                                                                                     assert id != null;
-                                                                                                    Intent intent = new Intent(refActivity, BookingConfirmedActivity.class);
+                                                                                                    Intent intent=new Intent(refActivity, BookingConfirmedActivity.class);
 
                                                                                                     switch (companyFlag) {
 
@@ -639,8 +610,8 @@ public class BookingFragment extends Fragment {
                             })
                             .setNegativeButton("No", null).show();
 
-                }
 
+                }
             }
 
 
@@ -682,7 +653,14 @@ public class BookingFragment extends Fragment {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                 row_index = i;
+            row_index=i;
+            if (row_index != 0)
+                btnCounter+=1;
+            if (btnCounter >= 3) {
+                btnBookSlot.setEnabled(true);
+                btnBookSlot.setTextColor(Color.parseColor("#FFFFFF"));
+            }
+
         }
 
         @Override
@@ -699,7 +677,13 @@ public class BookingFragment extends Fragment {
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
             column_index = i;
-            //Toast.makeText(refActivity,"wh "+column_index, Toast.LENGTH_LONG).show();
+
+            if (row_index != 0)
+                btnCounter+=1;
+            if (btnCounter >= 3) {
+                btnBookSlot.setEnabled(true);
+                btnBookSlot.setTextColor(Color.parseColor("#FFFFFF"));
+            }
         }
 
         @Override

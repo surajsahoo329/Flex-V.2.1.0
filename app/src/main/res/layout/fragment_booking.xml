@@ -132,8 +132,9 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/custom_button"
-            android:textColor="#ffffff"
+            android:enabled="false"
             android:text="@string/book"
+            android:textColor="@color/colorPrimaryDark"
             android:textAllCaps="false" />
 
         <Space
