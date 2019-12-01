@@ -11,25 +11,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="com.example.flex.FeedbackFragment">
+    tools:context="com.example.flex.SendFeedbackFragment">
 
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="@string/feedback"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="30sp"
-        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView2"
@@ -99,12 +82,13 @@
     <Button
         android:id="@+id/btnFeedback"
         android:background="@drawable/custom_button"
-        android:textColor="#ffffff"
+        android:enabled="false"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/send_feedback"
+        android:textColor="@color/colorPrimaryDark"
         android:textAllCaps="false" />
 
     <Space
@@ -118,6 +102,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:text="@string/view_feedback"
         android:textAllCaps="false" />

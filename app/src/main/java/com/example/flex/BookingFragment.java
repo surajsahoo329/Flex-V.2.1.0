@@ -64,7 +64,7 @@ public class BookingFragment extends Fragment {
     private TextView tvIDate;
     private int row_index, column_index, dlFlag = 0, companyFlag = 0, slotFlagCheck ;
     private String strTime, strHours ;
-    Button btnBookSlot;
+    private Button btnBookSlot;
     private int btnCounter=0;
 
     private DatabaseReference dbRef, sldbRef, dlRef;

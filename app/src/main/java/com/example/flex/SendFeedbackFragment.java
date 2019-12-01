@@ -35,7 +35,7 @@ import java.text.NumberFormat;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FeedbackFragment extends Fragment {
+public class SendFeedbackFragment extends Fragment {
 
     private View parentHolder;
     private TextView tvRating,tvComment,tvSetRating,tvSetComment;
@@ -46,7 +46,7 @@ public class FeedbackFragment extends Fragment {
     private DatabaseReference fdbRef;
     private View parentLayout;
 
-    public FeedbackFragment() {
+    public SendFeedbackFragment() {
         // Required empty public constructor
     }
 
@@ -58,7 +58,7 @@ public class FeedbackFragment extends Fragment {
 
 
         final Activity referenceActivity=getActivity();
-        parentHolder = inflater.inflate(R.layout.fragment_feedback, container,
+        parentHolder=inflater.inflate(R.layout.send_fragment_feedback, container,
                 false);
         assert referenceActivity != null;
         parentLayout = referenceActivity.findViewById(android.R.id.content);

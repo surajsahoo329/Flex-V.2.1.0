@@ -1,5 +1,6 @@
 package com.example.flex;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
     FirebaseAuth auth;
-    TextView tvWelcome, tvEmail, tvDLTabTitle;
+    TextView tvWelcome, tvEmail, tvDLFeedbackTabTitle;
     DatabaseReference dbRef,usrRef;
     String uEmail,checkEmail;
     String id, name, getImageUrl;
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setItemIconTintList(null);
 
         frameLayout=findViewById(R.id.fragment_container);
-        tvDLTabTitle=findViewById(R.id.tvDLTabTitle);
+        tvDLFeedbackTabTitle=findViewById(R.id.tvDLFeedbackTabTitle);
         viewPager=findViewById(R.id.viewPager);
         tabLayout=findViewById(R.id.tabLayout);
 
@@ -183,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             openProfile=extras.getBoolean("openProfile");
         if (openProfile) {
 
-            tvDLTabTitle.setVisibility(View.GONE);
+            tvDLFeedbackTabTitle.setVisibility(View.GONE);
             ft.replace(R.id.fragment_container, new ProfileFragment());
             ft.addToBackStack(null);
             ft.commit();
@@ -202,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             openBooking=extras.getBoolean("openBooking");
         if (openBooking) {
 
-            tvDLTabTitle.setVisibility(View.GONE);
+            tvDLFeedbackTabTitle.setVisibility(View.GONE);
             ft.replace(R.id.fragment_container, new BookingFragment());
             ft.addToBackStack(null);
             ft.commit();
@@ -224,12 +225,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .show();
 
             frameLayout.setVisibility(View.GONE);
-            tvDLTabTitle.setVisibility(View.VISIBLE);
+            tvDLFeedbackTabTitle.setVisibility(View.VISIBLE);
             viewPager.setVisibility(View.VISIBLE);
             tabLayout.setVisibility(View.VISIBLE);
             TabAdapter adapter=new TabAdapter(getSupportFragmentManager());
             adapter.addFragment(new DLFragment(), "Edit Details");
             adapter.addFragment(new LicenseDetailsFragment(), "View Details");
+            viewPager.setAdapter(adapter);
+            tabLayout.setupWithViewPager(viewPager);
+            drawer.closeDrawer(GravityCompat.START);
+        }
+
+        if (extras != null && extras.containsKey("openFeedbackSubmit"))
+            openDLSubmit=extras.getBoolean("openFeedbackSubmit");
+        if (openDLSubmit) {
+
+            Snackbar.make(parentLayout, "Thanks for a feedback", Snackbar.LENGTH_LONG)
+                    .setDuration(3000)
+                    .setAction("Close", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    })
+                    .setActionTextColor(getResources().getColor(android.R.color.background_light))
+                    .show();
+
+            frameLayout.setVisibility(View.GONE);
+            tvDLFeedbackTabTitle.setVisibility(View.VISIBLE);
+            tvDLFeedbackTabTitle.setText("Feedback");
+            viewPager.setVisibility(View.VISIBLE);
+            tabLayout.setVisibility(View.VISIBLE);
+            TabAdapter adapter=new TabAdapter(getSupportFragmentManager());
+            adapter.addFragment(new SendFeedbackFragment(), "Send Feedback");
+            adapter.addFragment(new ViewFeedbackFragment(), "View Feedback");
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
             drawer.closeDrawer(GravityCompat.START);
@@ -306,6 +335,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         // Handle navigation view item clicks here.
@@ -319,7 +349,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()) {
 
             case R.id.nav_booking:
-                tvDLTabTitle.setVisibility(View.GONE);
+                tvDLFeedbackTabTitle.setVisibility(View.GONE);
                 viewPager.setVisibility(View.GONE);
                 tabLayout.setVisibility(View.GONE);
                 frameLayout.setVisibility(View.VISIBLE);
@@ -331,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_slots:
-                tvDLTabTitle.setVisibility(View.GONE);
+                tvDLFeedbackTabTitle.setVisibility(View.GONE);
                 viewPager.setVisibility(View.GONE);
                 tabLayout.setVisibility(View.GONE);
                 frameLayout.setVisibility(View.VISIBLE);
@@ -344,7 +374,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_dl:
                 frameLayout.setVisibility(View.GONE);
-                tvDLTabTitle.setVisibility(View.VISIBLE);
+                tvDLFeedbackTabTitle.setVisibility(View.VISIBLE);
+                tvDLFeedbackTabTitle.setText("Driving License");
                 viewPager.setVisibility(View.VISIBLE);
                 tabLayout.setVisibility(View.VISIBLE);
                 TabAdapter adapter=new TabAdapter(getSupportFragmentManager());
@@ -356,7 +387,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_profile:
-                tvDLTabTitle.setVisibility(View.GONE);
+                tvDLFeedbackTabTitle.setVisibility(View.GONE);
                 viewPager.setVisibility(View.GONE);
                 tabLayout.setVisibility(View.GONE);
                 frameLayout.setVisibility(View.VISIBLE);
@@ -368,7 +399,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_contacts:
-                tvDLTabTitle.setVisibility(View.GONE);
+                tvDLFeedbackTabTitle.setVisibility(View.GONE);
                 viewPager.setVisibility(View.GONE);
                 tabLayout.setVisibility(View.GONE);
                 frameLayout.setVisibility(View.VISIBLE);
@@ -380,19 +411,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_feedback:
-                tvDLTabTitle.setVisibility(View.GONE);
-                viewPager.setVisibility(View.GONE);
-                tabLayout.setVisibility(View.GONE);
-                frameLayout.setVisibility(View.VISIBLE);
-                ob = new FeedbackFragment();
-                ft.replace(R.id.fragment_container,ob);
-                ft.addToBackStack(null);
-                ft.commit();
+                frameLayout.setVisibility(View.GONE);
+                tvDLFeedbackTabTitle.setVisibility(View.VISIBLE);
+                tvDLFeedbackTabTitle.setText("Feedback");
+                viewPager.setVisibility(View.VISIBLE);
+                tabLayout.setVisibility(View.VISIBLE);
+                adapter=new TabAdapter(getSupportFragmentManager());
+                adapter.addFragment(new SendFeedbackFragment(), "Send Feedback");
+                adapter.addFragment(new ViewFeedbackFragment(), "View Feedback");
+                viewPager.setAdapter(adapter);
+                tabLayout.setupWithViewPager(viewPager);
                 drawer.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.nav_about:
-                tvDLTabTitle.setVisibility(View.GONE);
+                tvDLFeedbackTabTitle.setVisibility(View.GONE);
                 viewPager.setVisibility(View.GONE);
                 tabLayout.setVisibility(View.GONE);
                 frameLayout.setVisibility(View.VISIBLE);
