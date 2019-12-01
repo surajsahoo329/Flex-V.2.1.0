@@ -3,8 +3,11 @@ package com.example.flex;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,8 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.Objects;
 
 
 /**
@@ -36,15 +36,57 @@ public class EditFragment extends Fragment {
 
     static int updateFlag=0;
     private String id;
-    private View parentLayout;
     private EditText etName, etPhone;
     private DatabaseReference usrRef, updateRef;
-    private String checkEmail, uemail, updateName, updatePhone;
+    Button btnConfirm;
     private boolean onceChecked=false;
+    private String checkEmail, uEmail;
 
     public EditFragment() {
         // Required empty public constructor
     }
+
+    private TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+            String updateName=etName.getText().toString();
+            String updatePhone=etPhone.getText().toString();
+
+            if (updateName.length() == 0) {
+
+                etName.setError("Please enter your name");
+
+            } else if (updatePhone.length() < 10) {
+
+                etPhone.setError("Please enter a valid phone number");
+
+            } else {
+
+                etPhone.setError(null);
+                etName.setError(null);
+
+            }
+
+            btnConfirm.setEnabled(!updateName.isEmpty() && updatePhone.length() == 10);
+
+            if (!updateName.isEmpty() && updatePhone.length() == 10)
+                btnConfirm.setTextColor(Color.parseColor("#FFFFFF"));
+            else
+                btnConfirm.setTextColor(Color.parseColor("#1DA1F2"));
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
 
     @RequiresApi(api=Build.VERSION_CODES.KITKAT)
     @Override
@@ -55,8 +97,7 @@ public class EditFragment extends Fragment {
 
         etName=parentHolder.findViewById(R.id.edName);
         etPhone=parentHolder.findViewById(R.id.edPhone);
-        Button btnConfirm=parentHolder.findViewById(R.id.btnEditProfile);
-        parentLayout=Objects.requireNonNull(getActivity()).findViewById(android.R.id.content);
+        btnConfirm=parentHolder.findViewById(R.id.btnEditProfile);
 
         final FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
@@ -77,15 +118,17 @@ public class EditFragment extends Fragment {
 
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                        uemail=ds.child("userMail").getValue(String.class);
-                        assert uemail != null;
-                        if (uemail.equals(checkEmail)) {
+                        uEmail=ds.child("userMail").getValue(String.class);
+                        assert uEmail != null;
+                        if (uEmail.equals(checkEmail)) {
 
                             pd.dismiss();
                             String getName=ds.child("userName").getValue(String.class);
                             String getPhone=ds.child("userPhone").getValue(String.class);
                             etName.setText(getName);
                             etPhone.setText(getPhone);
+                            etName.addTextChangedListener(textWatcher);
+                            etPhone.addTextChangedListener(textWatcher);
                             break;
                         }
 
@@ -112,82 +155,53 @@ public class EditFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                updateName=etName.getText().toString();
-                updatePhone=etPhone.getText().toString();
+                final String updateName=etName.getText().toString();
+                final String updatePhone=etPhone.getText().toString();
 
+                final ProgressDialog pd=ProgressDialog.show(getActivity(), "Updating", "Hang on...", true);
+                updateRef=dbRef.child("User");
 
-                if (updatePhone.length() == 0 || updateName.length() == 0) {
+                ValueEventListener userListener=new ValueEventListener() {
 
-                    Snackbar.make(parentLayout, "Please enter your name and phone number", Snackbar.LENGTH_LONG)
-                            .setDuration(3000)
-                            .setAction("Close", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                }
-                            })
-                            .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                            .show();
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                } else if (updatePhone.length() != 10) {
+                            uEmail=ds.child("userMail").getValue(String.class);
 
-                    Snackbar.make(parentLayout, "Please enter a valid phone number", Snackbar.LENGTH_LONG)
-                            .setDuration(3000)
-                            .setAction("Close", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
+                            assert uEmail != null;
+                            if (uEmail.equals(checkEmail)) {
 
-                                }
-                            })
-                            .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                            .show();
-
-                } else {
-
-                    final ProgressDialog pd=ProgressDialog.show(getActivity(), "Updating", "Hang on...", true);
-                    updateRef=dbRef.child("User");
-
-                    ValueEventListener userListener=new ValueEventListener() {
-
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-                                uemail=ds.child("userMail").getValue(String.class);
-
-                                assert uemail != null;
-                                if (uemail.equals(checkEmail)) {
-
-                                    pd.dismiss();
-                                    id=ds.child("userId").getValue(String.class);
-                                    assert id != null;
-                                    usrRef.child(id).child("userName").setValue(updateName);
-                                    usrRef.child(id).child("userPhone").setValue(updatePhone);
-                                    updateFlag=1;
-                                    Intent intent=new Intent(getActivity(), MainActivity.class);
-                                    intent.putExtra("openProfile", true);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    startActivity(intent);
-                                    break;
-                                }
-
+                                pd.dismiss();
+                                id=ds.child("userId").getValue(String.class);
+                                assert id != null;
+                                usrRef.child(id).child("userName").setValue(updateName);
+                                usrRef.child(id).child("userPhone").setValue(updatePhone);
+                                updateFlag=1;
+                                Intent intent=new Intent(getActivity(), MainActivity.class);
+                                intent.putExtra("openProfile", true);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(intent);
+                                break;
                             }
 
-
                         }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                            pd.dismiss();
-                            Toast.makeText(getActivity(), databaseError.getCode(), Toast.LENGTH_LONG).show();
-                        }
-                    };
+                    }
 
-                    updateRef.addListenerForSingleValueEvent(userListener);
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
+                        pd.dismiss();
+                        Toast.makeText(getActivity(), databaseError.getCode(), Toast.LENGTH_LONG).show();
+                    }
+                };
+
+                updateRef.addListenerForSingleValueEvent(userListener);
+
+
 
             }
         });

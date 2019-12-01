@@ -23,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 public class DrivingLicenseDetailsFragment extends Fragment {
 
 
-    private FirebaseUser user;
     private View parentLayout;
     private TextView tvDLNumber, tvName, tvDOB, tvAddress, tvIssueDate, tvExpiryDate;
     private String checkMail="", umail="", dlNumber, dlName, DOB, address, issueDate, expiryDate;
@@ -42,7 +41,7 @@ public class DrivingLicenseDetailsFragment extends Fragment {
         final ProgressDialog pd=ProgressDialog.show(getActivity(), "Loading License Details", "Please wait...", true);
 
         DatabaseReference dbRef=FirebaseDatabase.getInstance().getReference();
-        user=FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         checkMail=user.getEmail();
         parentLayout=parentHolder.findViewById(android.R.id.content);

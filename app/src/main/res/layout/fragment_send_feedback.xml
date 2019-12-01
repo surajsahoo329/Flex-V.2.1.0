@@ -65,6 +65,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
+        android:visibility="gone"
         android:background="@drawable/solid_border"
         android:ems="10"
         android:gravity="start|top"
@@ -79,13 +80,13 @@
     <Button
         android:id="@+id/btnSubmitFeedback"
         android:background="@drawable/custom_button"
-        android:enabled="false"
+        android:textColor="@color/white"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/submit"
-        android:textColor="@color/colorPrimaryDark"
+        android:visibility="gone"
         android:textAllCaps="false" />
 
     <Space

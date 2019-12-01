@@ -189,10 +189,21 @@ public class EditDrivingLicenseFragment extends Fragment {
             } else {
 
                 etDLNumber.setError(null);
-                btnSubmitLicenseDetails.setEnabled(true);
-                btnSubmitLicenseDetails.setTextColor(Color.parseColor("#FFFFFF"));
-
+                etDLName.setError(null);
+                etDOB.setError(null);
+                etAddress.setError(null);
+                etIssueDate.setError(null);
+                etExpiryDate.setError(null);
             }
+
+            boolean enabled=dlNumber.length() == 15 && !name.isEmpty() && !dob.isEmpty() && !address.isEmpty() && !issueDate.isEmpty() && !expiryDate.isEmpty();
+            btnSubmitLicenseDetails.setEnabled(enabled);
+
+            if (enabled)
+                btnSubmitLicenseDetails.setTextColor(Color.parseColor("#FFFFFF"));
+            else
+                btnSubmitLicenseDetails.setTextColor(Color.parseColor("#1DA1F2"));
+
 
 
         }

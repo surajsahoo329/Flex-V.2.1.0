@@ -4,7 +4,6 @@ package com.example.flex;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -58,7 +57,7 @@ public class SendFeedbackFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        parentHolder=inflater.inflate(R.layout.send_fragment_feedback, container,
+        parentHolder=inflater.inflate(R.layout.fragment_send_feedback, container,
                 false);
 
         btnFeedback=parentHolder.findViewById(R.id.btnSubmitFeedback);
@@ -181,8 +180,8 @@ public class SendFeedbackFragment extends Fragment {
 
                 tvRating.setVisibility(View.VISIBLE);
                 tvComment.setVisibility(View.VISIBLE);
-                btnFeedback.setEnabled(true);
-                btnFeedback.setTextColor(Color.parseColor("#FFFFFF"));
+                btnFeedback.setVisibility(View.VISIBLE);
+                etFeedback.setVisibility(View.VISIBLE);
 
                 feedbackRating = String.valueOf(rating);
 
