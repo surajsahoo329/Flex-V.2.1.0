@@ -145,7 +145,7 @@ public class RegisterActivity extends AppCompatActivity implements ValueEventLis
 
                 addUser();
                 addFeedback();
-                addDL();
+                addDrivingLicense();
                 addSlot();
             }
 
@@ -259,7 +259,8 @@ public class RegisterActivity extends AppCompatActivity implements ValueEventLis
 
     }
 
-    private void addDL() {
+    private void addDrivingLicense() {
+
         String usrMail=etEmail.getText().toString().trim();
         String userName="", LicenseNumber="", userDOB="", userAddress="", LicenseIssueDate="", LicenseExpiryDate="";
         int userDLFlag=0;
@@ -294,9 +295,9 @@ public class RegisterActivity extends AppCompatActivity implements ValueEventLis
     private void addFeedback() {
 
         String checkEmail=etEmail.getText().toString().trim();
-        String feedbackRating="0", feedbackText="";
+        String feedbackRating="0", feedbackText="", feedbackDate="";
         String id=databaseFeedback.push().getKey();
-        Feedback feedback=new Feedback(id, checkEmail, feedbackRating, feedbackText);
+        Feedback feedback=new Feedback(id, checkEmail, feedbackRating, feedbackText, feedbackDate);
         assert id != null;
         databaseFeedback.child(id).setValue(feedback);
 

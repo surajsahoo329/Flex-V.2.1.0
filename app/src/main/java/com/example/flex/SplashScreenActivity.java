@@ -9,7 +9,7 @@ import android.view.WindowManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class FirstScreenActivity extends Activity {
+public class SplashScreenActivity extends Activity {
 
     private FirebaseAuth mAuth;
 
@@ -17,7 +17,7 @@ public class FirstScreenActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_first_screen);
+        setContentView(R.layout.activity_splash_screen);
 
         getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -32,13 +32,13 @@ public class FirstScreenActivity extends Activity {
                 FirebaseUser currentUser = mAuth.getCurrentUser();
                 if(currentUser==null)
                 {
-                    Intent it=new Intent(FirstScreenActivity.this, LoginActivity.class);
+                    Intent it=new Intent(SplashScreenActivity.this, LoginActivity.class);
                     startActivity(it);
                     finish();
                 }
                 else
                 {
-                    Intent intent=new Intent(FirstScreenActivity.this, MainActivity.class);
+                    Intent intent=new Intent(SplashScreenActivity.this, MainActivity.class);
                     intent.putExtra("openBooking", true);
                     overridePendingTransition(0, 0);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
