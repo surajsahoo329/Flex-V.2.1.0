@@ -249,7 +249,7 @@ public class BookingFragment extends Fragment {
 
                                     final ProgressDialog pd=ProgressDialog.show(refActivity, "Assigning slot", "Please wait...", true);
 
-                                    dlRef=dbRef.child("DL");
+                                    dlRef=dbRef.child("DrivingLicense");
 
                                     ValueEventListener dlListener=new ValueEventListener() {
                                         @Override

@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class LicenseDetailsFragment extends Fragment {
+public class DrivingLicenseDetailsFragment extends Fragment {
 
 
     private FirebaseUser user;
@@ -28,7 +28,7 @@ public class LicenseDetailsFragment extends Fragment {
     private TextView tvDLNumber, tvName, tvDOB, tvAddress, tvIssueDate, tvExpiryDate;
     private String checkMail="", umail="", dlNumber, dlName, DOB, address, issueDate, expiryDate;
 
-    public LicenseDetailsFragment() {
+    public DrivingLicenseDetailsFragment() {
         // Required empty public constructor
     }
 
@@ -37,7 +37,7 @@ public class LicenseDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View parentHolder=inflater.inflate(R.layout.fragment_license_details, container, false);
+        View parentHolder=inflater.inflate(R.layout.fragment_driving_license_details, container, false);
 
         final ProgressDialog pd=ProgressDialog.show(getActivity(), "Loading License Details", "Please wait...", true);
 
@@ -55,7 +55,7 @@ public class LicenseDetailsFragment extends Fragment {
         tvExpiryDate=parentHolder.findViewById(R.id.tvExpiryDate);
 
 
-        DatabaseReference dlRef=dbRef.child("DL");
+        DatabaseReference dlRef=dbRef.child("DrivingLicense");
 
         ValueEventListener dlListener=new ValueEventListener() {
             @Override

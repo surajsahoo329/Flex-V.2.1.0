@@ -96,7 +96,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
         usrRef=dbRef.child("User");
         fdbRef=dbRef.child("Feedback");
         slotRef=dbRef.child("Slot");
-        dlRef=dbRef.child("DL");
+        dlRef=dbRef.child("DrivingLicense");
         hisRef=dbRef.child("History");
 
         btnDeleteAccount.setOnClickListener(new View.OnClickListener() {
@@ -237,7 +237,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
 
                                                         pd.dismiss();
                                                     }
-                                                });//DL Database deleted
+                                                });//DrivingLicense Database deleted
 
                                                 StorageReference photoRef=mStorageReference.child(uEmail).child("photo.jpg");
                                                 photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -265,7 +265,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
 
                                                         pd.dismiss();
                                                      }
-                                                }); // DL deleted
+                                                }); // DrivingLicense deleted
 
                                                 user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override

@@ -52,14 +52,10 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:visibility="gone"
         android:textColor="#000"
         />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
 
 
     <EditText
@@ -67,6 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/solid_border"
         android:ems="10"
@@ -80,100 +77,20 @@
         android:layout_height="30dp" />
 
     <Button
-        android:id="@+id/btnFeedback"
+        android:id="@+id/btnSubmitFeedback"
         android:background="@drawable/custom_button"
         android:enabled="false"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/send_feedback"
+        android:text="@string/submit"
         android:textColor="@color/colorPrimaryDark"
         android:textAllCaps="false" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <Button
-        android:id="@+id/btnGetFeedback"
-        android:background="@drawable/custom_button"
-        android:textColor="#ffffff"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="wrap_content"
-        android:text="@string/view_feedback"
-        android:textAllCaps="false" />
-
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <TextView
-        android:id="@+id/tvRatingTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="@string/your_review"
-        android:visibility="gone"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
-    <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        card_view:cardCornerRadius="4dp">
-
-        <LinearLayout
-            android:id="@+id/linearLayoutFB"
-            android:layout_width="match_parent"
-            android:background="@drawable/solid_border"
-            android:visibility="gone"
-            android:padding="20dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/tvSetRating"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textStyle="bold"
-        android:visibility="gone"
-        android:textColor="#000"
-        />
-
-    <TextView
-        android:id="@+id/tvSetComment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:textColor="#000"
-        />
-
-        </LinearLayout>
-
-
-    </androidx.cardview.widget.CardView>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="30dp" />
 
 
 </LinearLayout>

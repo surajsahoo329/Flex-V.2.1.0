@@ -1,6 +1,6 @@
 package com.example.flex;
 
-public class DL {
+public class DrivingLicense {
 
     private String userId;
     private String userMail;
@@ -15,12 +15,12 @@ public class DL {
     //Constructor
     //Function Overloading(Look it up)
 
-    public DL() {
+    public DrivingLicense() {
 
     }
 
     //Another constructor to initialize our variables
-    DL(String userId,String userMail, String userName, String LicenseNumber, String userDOB, String userAddress, String LicenseIssueDate,String LicenseExpiryDate, int userDLFlag) {
+    DrivingLicense(String userId, String userMail, String userName, String LicenseNumber, String userDOB, String userAddress, String LicenseIssueDate, String LicenseExpiryDate, int userDLFlag) {
         this.userId = userId;
         this.userMail=userMail;
         this.userName = userName;

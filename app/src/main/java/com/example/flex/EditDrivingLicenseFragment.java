@@ -47,7 +47,7 @@ import java.util.Calendar;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
-public class DLFragment extends Fragment {
+public class EditDrivingLicenseFragment extends Fragment {
 
     private Activity refActivity;
     private StorageReference mStorageReference;
@@ -62,7 +62,7 @@ public class DLFragment extends Fragment {
     private EditText etDLName, etDLNumber, etDOB, etAddress, etIssueDate, etExpiryDate;
     private TextView tvIDOB, tvIDate, tvIEDate;
 
-    public DLFragment()
+    public EditDrivingLicenseFragment()
     {
 
     }
@@ -90,7 +90,7 @@ public class DLFragment extends Fragment {
         DownloadManager.Request request = new DownloadManager.Request(uri);
 
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalFilesDir(context,destDirectory, "Flex DL" + ".pdf");
+        request.setDestinationInExternalFilesDir(context, destDirectory, "Flex DrivingLicense" + ".pdf");
 
         assert downloadManager != null;
         downloadManager.enqueue(request);
@@ -151,7 +151,7 @@ public class DLFragment extends Fragment {
         refActivity = getActivity();
         assert refActivity != null;
         parentLayout = refActivity.findViewById(android.R.id.content);
-        View parentHolder=inflater.inflate(R.layout.fragment_dl, container, false);
+        View parentHolder=inflater.inflate(R.layout.fragment_edit_driving_license, container, false);
         mStorageReference = FirebaseStorage.getInstance().getReference();
 
         etDLNumber=parentHolder.findViewById(R.id.etDLNumber);
@@ -176,7 +176,7 @@ public class DLFragment extends Fragment {
         checkEmail = user.getEmail();
         dbRef = FirebaseDatabase.getInstance().getReference();
         usrRef = dbRef.child("User");
-        dlRef=dbRef.child("DL");
+        dlRef=dbRef.child("DrivingLicense");
 
         final ProgressDialog pd=ProgressDialog.show(getActivity(), "Fetching data", "Hang on...", true);
 
@@ -553,7 +553,7 @@ public class DLFragment extends Fragment {
                 } else {
                     final ProgressDialog pd = ProgressDialog.show(refActivity,"","Please wait...",true);
 
-                    dlRef=dbRef.child("DL");
+                    dlRef=dbRef.child("DrivingLicense");
 
                     ValueEventListener dlListener=new ValueEventListener() {
                         @Override

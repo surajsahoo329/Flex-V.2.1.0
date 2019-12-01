@@ -136,7 +136,7 @@ public class RegisterActivity extends AppCompatActivity implements ValueEventLis
         databaseUser=FirebaseDatabase.getInstance().getReference("User");
         databaseFeedback=FirebaseDatabase.getInstance().getReference("Feedback");
         databaseSlot=FirebaseDatabase.getInstance().getReference("Slot");
-        databaseDL=FirebaseDatabase.getInstance().getReference("DL");
+        databaseDL=FirebaseDatabase.getInstance().getReference("DrivingLicense");
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceType")
@@ -264,9 +264,9 @@ public class RegisterActivity extends AppCompatActivity implements ValueEventLis
         String userName="", LicenseNumber="", userDOB="", userAddress="", LicenseIssueDate="", LicenseExpiryDate="";
         int userDLFlag=0;
         String id=databaseDL.push().getKey();
-        DL dl=new DL(id, usrMail, userName, LicenseNumber, userDOB, userAddress, LicenseIssueDate, LicenseExpiryDate, userDLFlag);
+        DrivingLicense drivingLicense=new DrivingLicense(id, usrMail, userName, LicenseNumber, userDOB, userAddress, LicenseIssueDate, LicenseExpiryDate, userDLFlag);
         assert id != null;
-        databaseDL.child(id).setValue(dl);
+        databaseDL.child(id).setValue(drivingLicense);
 
     }
 

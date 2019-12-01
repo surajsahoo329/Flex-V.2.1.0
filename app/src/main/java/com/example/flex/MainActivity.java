@@ -54,12 +54,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String uEmail,checkEmail;
     String id, name, getImageUrl;
     FrameLayout frameLayout;
-    boolean openDL, openProfile, openBooking, openDLSubmit;
+    boolean openDL, openProfile, openBooking, openDLSubmit, openFeedbackSubmit;
     private TabLayout tabLayout;
 
     ImageView imageView;
     private ViewPager viewPager;
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api=VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (extras != null && extras.containsKey("openDL"))
             openDL=extras.getBoolean("openDL");
         if (openDL) {
-            ft.replace(R.id.fragment_container, new DLFragment());
+            ft.replace(R.id.fragment_container, new EditDrivingLicenseFragment());
             ft.addToBackStack(null);
             ft.commit();
         }
@@ -229,18 +230,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             viewPager.setVisibility(View.VISIBLE);
             tabLayout.setVisibility(View.VISIBLE);
             TabAdapter adapter=new TabAdapter(getSupportFragmentManager());
-            adapter.addFragment(new DLFragment(), "Edit Details");
-            adapter.addFragment(new LicenseDetailsFragment(), "View Details");
+            adapter.addFragment(new EditDrivingLicenseFragment(), "Edit Details");
+            adapter.addFragment(new DrivingLicenseDetailsFragment(), "View Details");
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
             drawer.closeDrawer(GravityCompat.START);
         }
 
         if (extras != null && extras.containsKey("openFeedbackSubmit"))
-            openDLSubmit=extras.getBoolean("openFeedbackSubmit");
-        if (openDLSubmit) {
+            openFeedbackSubmit=extras.getBoolean("openFeedbackSubmit");
+        if (openFeedbackSubmit) {
 
-            Snackbar.make(parentLayout, "Thanks for a feedback", Snackbar.LENGTH_LONG)
+            Snackbar.make(parentLayout, "Thanks for your feedback", Snackbar.LENGTH_LONG)
                     .setDuration(3000)
                     .setAction("Close", new View.OnClickListener() {
                         @Override
@@ -379,8 +380,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 viewPager.setVisibility(View.VISIBLE);
                 tabLayout.setVisibility(View.VISIBLE);
                 TabAdapter adapter=new TabAdapter(getSupportFragmentManager());
-                adapter.addFragment(new DLFragment(), "Edit Details");
-                adapter.addFragment(new LicenseDetailsFragment(), "View Details");
+                adapter.addFragment(new EditDrivingLicenseFragment(), "Edit Details");
+                adapter.addFragment(new DrivingLicenseDetailsFragment(), "View Details");
                 viewPager.setAdapter(adapter);
                 tabLayout.setupWithViewPager(viewPager);
                 drawer.closeDrawer(GravityCompat.START);
