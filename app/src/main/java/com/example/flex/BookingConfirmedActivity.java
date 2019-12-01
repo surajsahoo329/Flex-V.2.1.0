@@ -14,6 +14,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,6 +58,7 @@ public class BookingConfirmedActivity extends AppCompatActivity {
         TextView tvTimings=findViewById(R.id.tvTimings);
         TextView tvAddress=findViewById(R.id.tvAddress);
         ImageView ivCompany=findViewById(R.id.ivImage);
+        RelativeLayout relativeLayout=findViewById(R.id.relative_layout_slot_card);
 
         Intent it = getIntent();
 
@@ -110,6 +112,15 @@ public class BookingConfirmedActivity extends AppCompatActivity {
             ivCompany.setImageResource(R.drawable.ic_indianpost);
         }
 
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                getInformation(company);
+
+            }
+        });
+
     }
 
     @Override
@@ -133,5 +144,44 @@ public class BookingConfirmedActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         finish();
         startActivity(intent);
+    }
+
+    private void getInformation(int getCompanyName) {
+        Intent it=new Intent(BookingConfirmedActivity.this, InformationActivity.class);
+
+        it.putExtra("flipkart", "0");
+        it.putExtra("fedex", "0");
+        it.putExtra("aramex", "0");
+        it.putExtra("delhivery", "0");
+        it.putExtra("bluedart", "0");
+        it.putExtra("dtdc", "0");
+        it.putExtra("ipost", "0");
+
+        switch (getCompanyName) {
+            case 1:
+                it.putExtra("flipkart", "1");
+                break;
+            case 2:
+                it.putExtra("fedex", "2");
+                break;
+            case 3:
+                it.putExtra("aramex", "3");
+                break;
+            case 4:
+                it.putExtra("delhivery", "4");
+                break;
+            case 5:
+                it.putExtra("bluedart", "5");
+                break;
+            case 6:
+                it.putExtra("dtdc", "6");
+                break;
+            default:
+                it.putExtra("ipost", "7");
+                break;
+        }
+
+        startActivity(it);
+
     }
 }

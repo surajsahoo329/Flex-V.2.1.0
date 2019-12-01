@@ -10,8 +10,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,9 +58,66 @@ public class DeleteAccountActivity extends AppCompatActivity {
     private StorageReference mStorageReference;
     private FirebaseUser user;
     private EditText etDeletePass;
+    private Button btnDeleteAccount;
     private View parentLayout;
     static int deleteAccountFlag = 0;
     private ProgressDialog pd;
+    TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            String password=etDeletePass.getText().toString().trim();
+
+            if (password.length() < 8)
+                etDeletePass.setError("Password must have atleast 8 characters");
+            else
+                etDeletePass.setError(null);
+
+            btnDeleteAccount.setEnabled(password.length() >= 8);
+
+            if (password.length() < 8)
+                btnDeleteAccount.setTextColor(Color.parseColor("#1DA1F2"));
+            else
+                btnDeleteAccount.setTextColor(Color.parseColor("#FFFFFF"));
+
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        Intent intent=new Intent(DeleteAccountActivity.this, MainActivity.class);
+        intent.putExtra("openProfile", true);
+        overridePendingTransition(0, 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        startActivity(intent);
+        finish();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent=new Intent(DeleteAccountActivity.this, MainActivity.class);
+        intent.putExtra("openProfile", true);
+        overridePendingTransition(0, 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        startActivity(intent);
+        finish();
+    }
 
     @RequiresApi(api=Build.VERSION_CODES.KITKAT)
     @Override
@@ -85,8 +144,9 @@ public class DeleteAccountActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(text);
 
         parentLayout = findViewById(android.R.id.content);
-        Button btnDeleteAccount=findViewById(R.id.btnConfirmDeleteAccount);
+        btnDeleteAccount=findViewById(R.id.btnConfirmDeleteAccount);
         etDeletePass=findViewById(R.id.etDeletePassword);
+        etDeletePass.addTextChangedListener(textWatcher);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
@@ -311,28 +371,4 @@ public class DeleteAccountActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        Intent intent=new Intent(DeleteAccountActivity.this, MainActivity.class);
-        intent.putExtra("openProfile", true);
-        overridePendingTransition(0, 0);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        finish();
-        startActivity(intent);
-        finish();
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        Intent intent=new Intent(DeleteAccountActivity.this, MainActivity.class);
-        intent.putExtra("openProfile", true);
-        overridePendingTransition(0, 0);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        finish();
-        startActivity(intent);
-        finish();
-    }
 }

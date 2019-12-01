@@ -9,10 +9,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +64,7 @@ public class EditDrivingLicenseFragment extends Fragment {
     private DatePickerDialog datePickerDialog;
     private EditText etDLName, etDLNumber, etDOB, etAddress, etIssueDate, etExpiryDate;
     private TextView tvIDOB, tvIDate, tvIEDate;
+    private Button btnSubmitLicenseDetails;
 
     public EditDrivingLicenseFragment()
     {
@@ -141,6 +145,64 @@ public class EditDrivingLicenseFragment extends Fragment {
 
     }
 
+    private TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            String dlNumber=etDLNumber.getText().toString().trim();
+            String name=etDLName.getText().toString().trim();
+            String address=etAddress.getText().toString().trim();
+            String dob=etDOB.getText().toString().trim();
+            String issueDate=etIssueDate.getText().toString().trim();
+            String expiryDate=etExpiryDate.getText().toString().trim();
+
+            btnSubmitLicenseDetails.setTextColor(Color.parseColor("#1DA1F2"));
+
+            if (dlNumber.length() != 15) {
+
+                etDLNumber.setError("Invalid License Number");
+
+            } else if (name.length() == 0) {
+
+                etDLName.setError("Please enter your name");
+
+            } else if (dob.length() == 0) {
+
+                etDOB.setError("Please enter your Date of Birth");
+
+            } else if (address.length() == 0) {
+
+                etAddress.setError("Please enter your address");
+
+            } else if (issueDate.length() == 0) {
+
+                etIssueDate.setError("Please enter your license's issue date");
+
+            } else if (expiryDate.length() == 0) {
+
+                etExpiryDate.setError("Please enter your license's expiry date");
+            } else {
+
+                etDLNumber.setError(null);
+                btnSubmitLicenseDetails.setEnabled(true);
+                btnSubmitLicenseDetails.setTextColor(Color.parseColor("#FFFFFF"));
+
+            }
+
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+
+        }
+    };
 
     @RequiresApi(api=Build.VERSION_CODES.KITKAT)
     @Override
@@ -165,11 +227,10 @@ public class EditDrivingLicenseFragment extends Fragment {
         tvIDate=parentHolder.findViewById(R.id.tvInvisibleIssueDate);
         tvIEDate=parentHolder.findViewById(R.id.tvInvisibleExpiryDate);
 
-
         ImageView ivUploadDL=parentHolder.findViewById(R.id.ivUploadDL);
         ImageView ivDownloadDL=parentHolder.findViewById(R.id.ivDownloadDL);
 
-        Button submit=parentHolder.findViewById(R.id.btnSubmit);
+        btnSubmitLicenseDetails=parentHolder.findViewById(R.id.btnSubmit);
 
         FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
@@ -210,6 +271,13 @@ public class EditDrivingLicenseFragment extends Fragment {
                         etIssueDate.setText(issueDate);
                         etExpiryDate.setText(expiryDate);
 
+                        etDLNumber.addTextChangedListener(textWatcher);
+                        etDLName.addTextChangedListener(textWatcher);
+                        etDOB.addTextChangedListener(textWatcher);
+                        etAddress.addTextChangedListener(textWatcher);
+                        etIssueDate.addTextChangedListener(textWatcher);
+                        etExpiryDate.addTextChangedListener(textWatcher);
+
                         break;
 
 
@@ -237,15 +305,13 @@ public class EditDrivingLicenseFragment extends Fragment {
 
         dlRef.addListenerForSingleValueEvent(dlListener);
 
-
         ivUploadDL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getDL();
+                getDrivingLicense();
             }
 
         });
-
 
         ivDownloadDL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -341,6 +407,7 @@ public class EditDrivingLicenseFragment extends Fragment {
 
                         etDOB.setText(dayOfMonth+"-"+monthStr+"-"+year);
                         tvIDOB.setText(dayOfMonth+"/"+month+"/"+year);
+                        etDOB.setError(null);
 
                     }
                 }, year,month,date);
@@ -394,6 +461,7 @@ public class EditDrivingLicenseFragment extends Fragment {
 
                         etIssueDate.setText(dayOfMonth+"-"+monthStr+"-"+year);
                         tvIDate.setText(dayOfMonth+"/"+month+"/"+year);
+                        etIssueDate.setError(null);
 
                     }
                 }, year,month,date);
@@ -446,6 +514,7 @@ public class EditDrivingLicenseFragment extends Fragment {
 
                         etExpiryDate.setText(dayOfMonth+"-"+monthStr+"-"+year);
                         tvIEDate.setText(dayOfMonth+"/"+month+"/"+year);
+                        etExpiryDate.setError(null);
 
                     }
                 }, year,month,date);
@@ -458,7 +527,7 @@ public class EditDrivingLicenseFragment extends Fragment {
         });
 
 
-        submit.setOnClickListener(new View.OnClickListener() {
+        btnSubmitLicenseDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -470,148 +539,67 @@ public class EditDrivingLicenseFragment extends Fragment {
                 final String issueDate=etIssueDate.getText().toString().trim();
                 final String expiryDate=etExpiryDate.getText().toString().trim();
 
-                if (dlNumber.length() != 15) {
-                    Snackbar.make(parentLayout, "Invalid License Number", Snackbar.LENGTH_LONG)
-                            .setDuration(3000)
-                            .setAction("Close", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
+                final ProgressDialog pd=ProgressDialog.show(refActivity, "", "Please wait...", true);
 
-                                }
-                            })
-                            .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                            .show();
+                dlRef=dbRef.child("DrivingLicense");
 
-                    etDLNumber.requestFocus();
+                ValueEventListener dlListener=new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                } else if (name.length() == 0) {
-                    Snackbar.make(parentLayout, "Please enter your name", Snackbar.LENGTH_LONG)
-                            .setDuration(3000)
-                            .setAction("Close", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
+                            uemail=ds.child("userMail").getValue(String.class);
 
-                                }
-                            })
-                            .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                            .show();
+                            assert uemail != null;
+                            if (uemail.equals(checkEmail)) {
 
-                    etDLName.requestFocus();
-                } else if (dob.length() == 0) {
-                    Snackbar.make(parentLayout, "Please enter your date of birth", Snackbar.LENGTH_LONG)
-                            .setDuration(3000)
-                            .setAction("Close", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
+                                pd.dismiss();
 
-                                }
-                            })
-                            .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                            .show();
+                                String id=ds.child("userId").getValue(String.class);
 
-                    etDOB.requestFocus();
-                } else if (address.length() == 0) {
-                    Snackbar.make(parentLayout, "Please enter your address", Snackbar.LENGTH_LONG)
-                            .setDuration(3000)
-                            .setAction("Close", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
+                                assert id != null;
+                                dlRef.child(id).child("licenseNumber").setValue(dlNumber);
+                                dlRef.child(id).child("userName").setValue(name);
+                                dlRef.child(id).child("userDOB").setValue(dob);
+                                dlRef.child(id).child("userAddress").setValue(address);
+                                dlRef.child(id).child("licenseIssueDate").setValue(issueDate);
+                                dlRef.child(id).child("licenseExpiryDate").setValue(expiryDate);
+                                dlRef.child(id).child("userDLFlag").setValue(1);
 
-                                }
-                            })
-                            .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                            .show();
+                                Intent intent=new Intent(getActivity(), MainActivity.class);
+                                intent.putExtra("openDLSubmit", true);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(intent);
 
-                    etAddress.requestFocus();
-                } else if (issueDate.length() == 0) {
-                    Snackbar.make(parentLayout, "Please enter your license's issue date", Snackbar.LENGTH_LONG)
-                            .setDuration(3000)
-                            .setAction("Close", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-
-                                }
-                            })
-                            .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                            .show();
-
-                    etIssueDate.requestFocus();
-                } else if (expiryDate.length() == 0) {
-                    Snackbar.make(parentLayout, "Please enter your license's expiry date", Snackbar.LENGTH_LONG)
-                            .setDuration(3000)
-                            .setAction("Close", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-
-                                }
-                            })
-                            .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                            .show();
-
-                    etExpiryDate.requestFocus();
-                } else {
-                    final ProgressDialog pd = ProgressDialog.show(refActivity,"","Please wait...",true);
-
-                    dlRef=dbRef.child("DrivingLicense");
-
-                    ValueEventListener dlListener=new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-                                uemail=ds.child("userMail").getValue(String.class);
-
-                                assert uemail != null;
-                                if (uemail.equals(checkEmail)) {
-
-                                    pd.dismiss();
-
-                                    String id=ds.child("userId").getValue(String.class);
-
-                                    assert id != null;
-                                    dlRef.child(id).child("licenseNumber").setValue(dlNumber);
-                                    dlRef.child(id).child("userName").setValue(name);
-                                    dlRef.child(id).child("userDOB").setValue(dob);
-                                    dlRef.child(id).child("userAddress").setValue(address);
-                                    dlRef.child(id).child("licenseIssueDate").setValue(issueDate);
-                                    dlRef.child(id).child("licenseExpiryDate").setValue(expiryDate);
-                                    dlRef.child(id).child("userDLFlag").setValue(1);
-
-                                    Intent intent=new Intent(getActivity(), MainActivity.class);
-                                    intent.putExtra("openDLSubmit", true);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    startActivity(intent);
-
-                                    break;
+                                break;
 
 
-                                }
                             }
-
                         }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
 
-                            pd.dismiss();
-                            Snackbar.make(parentLayout, "Try again", Snackbar.LENGTH_LONG)
-                                    .setDuration(3000)
-                                    .setAction("Close", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                        }
-                                    })
-                                    .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                                    .show();
-                        }
-                    };
+                        pd.dismiss();
+                        Snackbar.make(parentLayout, "Try again", Snackbar.LENGTH_LONG)
+                                .setDuration(3000)
+                                .setAction("Close", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
 
-                    dlRef.addListenerForSingleValueEvent(dlListener);
+                                    }
+                                })
+                                .setActionTextColor(getResources().getColor(android.R.color.background_light))
+                                .show();
+                    }
+                };
 
-                }
+                dlRef.addListenerForSingleValueEvent(dlListener);
+
+
             }
 
         });
@@ -620,7 +608,26 @@ public class EditDrivingLicenseFragment extends Fragment {
 
     }
 
-    private void getDL() {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //when the user choses the file
+
+        if (requestCode == PICK_DL_CODE && resultCode == MainActivity.RESULT_OK && data != null && data.getData() != null) {
+            //if a file is selected
+            if (data.getData() != null) {
+                //uploading the file
+                uploadFile(data.getData());
+            } else {
+
+                Toast.makeText(refActivity, "No file chosen", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+    }
+
+    private void getDrivingLicense() {
         //for greater than lollipop versions we need the permissions asked on runtime
         //so if the permission is not available user will go to the screen to allow storage permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(refActivity,
@@ -637,25 +644,6 @@ public class EditDrivingLicenseFragment extends Fragment {
         intent.setType("application/pdf");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Choose your file  "), PICK_DL_CODE);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //when the user choses the file
-
-        if (requestCode == PICK_DL_CODE && resultCode == MainActivity.RESULT_OK && data != null && data.getData() != null) {
-            //if a file is selected
-            if (data.getData() != null) {
-                //uploading the file
-                uploadFile(data.getData());
-            }else{
-
-                Toast.makeText(refActivity, "No file chosen", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-
     }
 
     private void uploadFile(Uri data) {
@@ -747,9 +735,7 @@ public class EditDrivingLicenseFragment extends Fragment {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-
-
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 }

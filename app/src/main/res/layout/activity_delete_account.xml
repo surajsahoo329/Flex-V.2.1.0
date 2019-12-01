@@ -63,8 +63,9 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:textAllCaps="false"
+        android:enabled="false"
         android:background="@drawable/custom_button"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorPrimaryDark"
         android:text="@string/confirm" />
 
         <Space
