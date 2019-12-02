@@ -244,9 +244,7 @@ public class LoginActivity extends AppCompatActivity {
                                     intent.putExtra("openBooking", true);
                                     overridePendingTransition(0, 0);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    finish();
                                     startActivity(intent);
-                                    finish();
 
                                 }
                             }

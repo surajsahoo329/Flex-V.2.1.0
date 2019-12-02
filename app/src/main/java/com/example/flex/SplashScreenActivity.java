@@ -39,10 +39,9 @@ public class SplashScreenActivity extends Activity {
                 else
                 {
                     Intent intent=new Intent(SplashScreenActivity.this, MainActivity.class);
-                    intent.putExtra("openBooking", true);
+                    intent.putExtra("openBookingStackNull", true);//Not adding to stack
                     overridePendingTransition(0, 0);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    finish();
                     startActivity(intent);
                 }
             }

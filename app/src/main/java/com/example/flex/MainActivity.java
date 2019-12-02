@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String uEmail,checkEmail;
     String id, name, getImageUrl;
     FrameLayout frameLayout;
-    boolean openDL, openProfile, openBooking, openDLSubmit, openFeedbackSubmit;
+    boolean openDL, openProfile, openBooking, openBookingStackNull, openDLSubmit, openFeedbackSubmit;
     private TabLayout tabLayout;
 
     ImageView imageView;
@@ -180,6 +180,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction ft=fm.beginTransaction();
 
         Bundle extras=getIntent().getExtras();
+
+        if (extras != null && extras.containsKey("openBookingStackNull"))
+            openBookingStackNull=extras.getBoolean("openBookingStackNull");
+        if (openBookingStackNull) {
+
+            tvDLFeedbackTabTitle.setVisibility(View.GONE);
+            ft.replace(R.id.fragment_container, new BookingFragment());
+            ft.commit();
+        }
 
         if (extras != null && extras.containsKey("openProfile"))
             openProfile=extras.getBoolean("openProfile");
