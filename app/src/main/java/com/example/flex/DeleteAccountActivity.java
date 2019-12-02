@@ -81,7 +81,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
             btnDeleteAccount.setEnabled(password.length() >= 8);
 
             if (password.length() < 8)
-                btnDeleteAccount.setTextColor(Color.parseColor("#1DA1F2"));
+                btnDeleteAccount.setTextColor(Color.parseColor("#E8F8EC"));
             else
                 btnDeleteAccount.setTextColor(Color.parseColor("#FFFFFF"));
 

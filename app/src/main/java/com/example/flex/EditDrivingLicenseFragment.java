@@ -200,7 +200,7 @@ public class EditDrivingLicenseFragment extends Fragment {
             btnSubmitLicenseDetails.setEnabled(enabled);
 
             if (enabled)
-                btnSubmitLicenseDetails.setTextColor(Color.parseColor("#FFFFFF"));
+                btnSubmitLicenseDetails.setTextColor(Color.parseColor("#E8F8EC"));
             else
                 btnSubmitLicenseDetails.setTextColor(Color.parseColor("#1DA1F2"));
 

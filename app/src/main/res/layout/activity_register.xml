@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="#FAFAFA"
         android:orientation="vertical">
 
 
@@ -17,9 +16,10 @@
         android:id="@+id/createAccTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
         android:textColor="#000"
-        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
         android:text="@string/create_account"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -30,18 +30,18 @@
 
 
         <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/etName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/solid_border"
             android:drawableStart="@drawable/ic_name"
             android:drawableLeft="@drawable/ic_name"
-        android:drawablePadding="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:ems="10"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:drawablePadding="5dp"
+            android:ems="10"
             android:hint="@string/name"
-        android:inputType="text"
+            android:inputType="text"
        />
 
         <Space
@@ -140,7 +140,7 @@
         android:background="@drawable/custom_button"
         android:textAllCaps="false"
         android:enabled="false"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/white"
         android:text="@string/sign_up" />
 
     <Space

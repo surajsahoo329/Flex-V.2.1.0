@@ -83,7 +83,7 @@ public class ChangePasswordFragment extends Fragment {
             if (b)
                 btnChangePassword.setTextColor(Color.parseColor("#FFFFFF"));
             else
-                btnChangePassword.setTextColor(Color.parseColor("#1DA1F2"));
+                btnChangePassword.setTextColor(Color.parseColor("#E8F8EC"));
 
         }
 

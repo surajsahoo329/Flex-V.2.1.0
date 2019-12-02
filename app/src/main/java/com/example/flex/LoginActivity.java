@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
             if (!usernameInput.isEmpty() && passwordInput.length() >= 8)
                 btnLogin.setTextColor(Color.parseColor("#FFFFFF"));
             else
-                btnLogin.setTextColor(Color.parseColor("#1DA1F2"));
+                btnLogin.setTextColor(Color.parseColor("#E8F8EC"));
 
         }
 
@@ -103,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(LoginActivity.this, android.R.color.background_light));// set status background white
         }
@@ -244,9 +245,7 @@ public class LoginActivity extends AppCompatActivity {
                                     intent.putExtra("openBooking", true);
                                     overridePendingTransition(0, 0);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                    finish();
                                     startActivity(intent);
-                                    finish();
 
                                 }
                             }

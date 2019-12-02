@@ -212,7 +212,7 @@
             android:enabled="false"
             android:textAllCaps="false"
             android:text="@string/submit"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="#E8F8EC" />
 
         <Space
             android:layout_width="wrap_content"

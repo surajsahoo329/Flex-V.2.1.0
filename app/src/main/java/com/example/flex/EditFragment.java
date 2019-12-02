@@ -79,7 +79,7 @@ public class EditFragment extends Fragment {
             if (!updateName.isEmpty() && updatePhone.length() == 10)
                 btnConfirm.setTextColor(Color.parseColor("#FFFFFF"));
             else
-                btnConfirm.setTextColor(Color.parseColor("#1DA1F2"));
+                btnConfirm.setTextColor(Color.parseColor("#E8F8EC"));
         }
 
         @Override

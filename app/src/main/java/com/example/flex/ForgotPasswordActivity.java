@@ -61,7 +61,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             if (!email.isEmpty())
                 btnResetPassword.setTextColor(Color.parseColor("#FFFFFF"));
             else
-                btnResetPassword.setTextColor(Color.parseColor("#1DA1F2"));
+                btnResetPassword.setTextColor(Color.parseColor("#E8F8EC"));
 
 
         }
@@ -176,6 +176,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                             }
                         });
             }
+
         });
 
     }

@@ -179,7 +179,7 @@ public class BookingFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (row_index + column_index > 12) {
+                if (row_index + column_index > 12 || row_index == 0 || column_index == 0) {
 
                     Snackbar.make(parentLayout, "Invalid slot time chosen.", Snackbar.LENGTH_LONG)
                             .setDuration(3000)

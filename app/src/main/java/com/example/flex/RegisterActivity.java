@@ -82,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity implements ValueEventLis
             if (b)
                 btnSignUp.setTextColor(Color.parseColor("#FFFFFF"));
             else
-                btnSignUp.setTextColor(Color.parseColor("#1DA1F2"));
+                btnSignUp.setTextColor(Color.parseColor("#E8F8EC"));
 
         }
 
@@ -116,6 +116,7 @@ public class RegisterActivity extends AppCompatActivity implements ValueEventLis
         Spannable text=new SpannableString(getSupportActionBar().getTitle());
         text.setSpan(new ForegroundColorSpan(Color.BLACK), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         getSupportActionBar().setTitle(text);
+
 
         etName=findViewById(R.id.etName);
         etEmail=findViewById(R.id.etEmail);

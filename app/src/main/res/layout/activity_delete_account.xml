@@ -65,7 +65,7 @@
         android:textAllCaps="false"
         android:enabled="false"
         android:background="@drawable/custom_button"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="#E8F8EC"
         android:text="@string/confirm" />
 
         <Space

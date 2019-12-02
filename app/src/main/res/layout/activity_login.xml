@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:fillViewport="false">
+    android:fillViewport="false"
+    tools:ignore="ScrollViewCount">
 
  <LinearLayout
      android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+     android:layout_height="wrap_content"
      android:id="@+id/login_layout"
-    android:gravity="center"
-    android:orientation="vertical">
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="40dp" />
+     android:gravity="center"
+     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvFont"
         android:layout_width="match_parent"
-        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="60dp"
         android:layout_height="wrap_content"
         android:textColor="#000"
-        android:layout_marginTop="20dp"
-        android:text="@string/flex"
+        android:layout_marginRight="20dp"
+        android:text="@string/login"
         android:textSize="30sp"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold" />
 
     <Space
         android:layout_width="match_parent"
@@ -36,11 +35,12 @@
         android:id="@+id/etEmailPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/solid_border"
         android:drawableStart="@drawable/ic_email"
         android:drawableLeft="@drawable/ic_email"
         android:layout_marginLeft="20dp"
+        android:background="@drawable/solid_border"
         android:layout_marginRight="20dp"
+        android:textColor="#000"
         android:drawablePadding="5dp"
         android:ems="10"
         android:hint="@string/email"
@@ -52,18 +52,19 @@
          android:layout_height="20dp"/>
 
         <com.google.android.material.textfield.TextInputEditText
-           android:id="@+id/etPassword"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginLeft="20dp"
-           android:layout_marginRight="20dp"
-           android:drawableStart="@drawable/ic_password"
-           android:drawableLeft="@drawable/ic_password"
-           android:drawablePadding="5dp"
-           android:ems="10"
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/solid_border"
+            android:drawableStart="@drawable/ic_password"
+            android:drawableLeft="@drawable/ic_password"
+            android:drawablePadding="5dp"
+            android:ems="10"
+            android:inputType="textPassword"
             android:hint="@string/password"
-           android:inputType="textPassword" />
+            android:textColor="#000" />
 
 
     <Space
@@ -79,7 +80,7 @@
         android:textAllCaps="false"
         android:background="@drawable/custom_button"
         android:enabled="false"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="#E8F8EC"
         android:text="@string/login" />
 
     <Space
@@ -104,8 +105,5 @@
         android:textColor="#000"
         android:text="@string/don_t_have_an_account_sign_up" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="100dp" />
 </LinearLayout>
 </ScrollView>

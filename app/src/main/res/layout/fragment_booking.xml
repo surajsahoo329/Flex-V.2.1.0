@@ -15,7 +15,7 @@
             android:id="@+id/tvHomeTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
             android:text="@string/booking"
@@ -134,7 +134,7 @@
             android:background="@drawable/custom_button"
             android:enabled="false"
             android:text="@string/book"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="#E8F8EC"
             android:textAllCaps="false" />
 
         <Space

@@ -133,6 +133,7 @@ public class SlotFragment extends Fragment {
                             @SuppressLint("SimpleDateFormat") SimpleDateFormat df=new SimpleDateFormat("dd-MMM-yyyy");
                             Date strDate = null;
                             try {
+                                assert date != null;
                                 strDate = df.parse(date);
                             } catch (ParseException e) {
                                 e.printStackTrace();
@@ -627,7 +628,6 @@ public class SlotFragment extends Fragment {
                                         });
                                     }
                                 } else {
-                                    assert date != null;
                                     char[] modDateArr=date.toCharArray();
 
                                     final String modTime=String.valueOf(modDateArr) + ", " + stTime + " | " + hours;
