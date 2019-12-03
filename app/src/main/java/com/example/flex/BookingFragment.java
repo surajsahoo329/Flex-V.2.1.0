@@ -441,9 +441,14 @@ public class BookingFragment extends Fragment {
 
                                                                                     sldbRef=dbRef.child("Slot");
 
+
                                                                                     ValueEventListener slotListener=new ValueEventListener() {
+
+                                                                                        ProgressDialog progressDialog=ProgressDialog.show(getActivity(), "", "Hang on...", true);
+
                                                                                         @Override
                                                                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
 
                                                                                             for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
@@ -547,6 +552,8 @@ public class BookingFragment extends Fragment {
                                                                                         @Override
                                                                                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
+
+                                                                                            progressDialog.dismiss();
                                                                                             startActivity(new Intent(refActivity, BookingFailedActivity.class));
 
                                                                                         }
@@ -561,6 +568,7 @@ public class BookingFragment extends Fragment {
                                                                                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                                                                     pd.dismiss();
+
 
                                                                                 }
 
