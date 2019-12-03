@@ -64,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity implements ValueEventLis
             String confirmPassword=etConfirmPassword.getText().toString().trim();
 
             if (name.length() == 0)
-                etName.setError("Please enter your email");
+                etName.setError("Please enter your name");
             else if (phone_no.length() != 10)
                 etPhone.setError("Invalid phone number");
             else if (email.length() == 0)
