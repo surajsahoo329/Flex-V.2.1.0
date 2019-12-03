@@ -161,7 +161,7 @@ public class EditDrivingLicenseFragment extends Fragment {
             String issueDate=etIssueDate.getText().toString().trim();
             String expiryDate=etExpiryDate.getText().toString().trim();
 
-            btnSubmitLicenseDetails.setTextColor(Color.parseColor("#1DA1F2"));
+            btnSubmitLicenseDetails.setTextColor(Color.parseColor("#E8F8EC"));
 
             if (dlNumber.length() != 15) {
 
@@ -200,9 +200,9 @@ public class EditDrivingLicenseFragment extends Fragment {
             btnSubmitLicenseDetails.setEnabled(enabled);
 
             if (enabled)
-                btnSubmitLicenseDetails.setTextColor(Color.parseColor("#E8F8EC"));
+                btnSubmitLicenseDetails.setTextColor(Color.parseColor("#FFFFFF"));
             else
-                btnSubmitLicenseDetails.setTextColor(Color.parseColor("#1DA1F2"));
+                btnSubmitLicenseDetails.setTextColor(Color.parseColor("#E8F8EC"));
 
 
 

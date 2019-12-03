@@ -84,7 +84,11 @@ public class BookingConfirmedActivity extends AppCompatActivity {
         final String modTimeStr = String.valueOf(modDateArr)+", "+time+" | "+hours;
         tvTimings.setText(modTimeStr);
 
-        if(company == 2) {
+        if (company == 1) {
+            tvCompany.setText("Ekart Logistics");
+            tvAddress.setText("Baramunda, Bhubaneswar");
+            ivCompany.setImageResource(R.drawable.ic_flipkart);
+        } else if (company == 2) {
             tvCompany.setText("Fedex");
             tvAddress.setText("Master Canteen, Bhubaneswar");
             ivCompany.setImageResource(R.drawable.ic_fedex);
@@ -106,10 +110,14 @@ public class BookingConfirmedActivity extends AppCompatActivity {
             tvCompany.setText("DTDC");
             tvAddress.setText("Master Canteen Area, Bhubaneswar");
             ivCompany.setImageResource(R.drawable.ic_dtdc);
-        } else if(company == 7) {
+        } else if (company == 7) {
             tvCompany.setText("Indian Post");
             tvAddress.setText("Bapuji Nagar, Bhubaneswar");
             ivCompany.setImageResource(R.drawable.ic_indianpost);
+        } else {
+            tvCompany.setText("Ekart Logistics");
+            tvAddress.setText("Baramunda, Bhubaneswar");
+            ivCompany.setImageResource(R.drawable.ic_flipkart);
         }
 
         relativeLayout.setOnClickListener(new View.OnClickListener() {

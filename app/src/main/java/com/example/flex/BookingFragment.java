@@ -441,9 +441,14 @@ public class BookingFragment extends Fragment {
 
                                                                                     sldbRef=dbRef.child("Slot");
 
+
                                                                                     ValueEventListener slotListener=new ValueEventListener() {
+
+                                                                                        ProgressDialog progressDialog=ProgressDialog.show(getActivity(), "", "Hang on...", true);
+
                                                                                         @Override
                                                                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
 
                                                                                             for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
@@ -459,6 +464,16 @@ public class BookingFragment extends Fragment {
 
                                                                                                     switch (companyFlag) {
 
+                                                                                                        case 1:
+                                                                                                            sldbRef.child(id).child("showDate").setValue(date);
+                                                                                                            sldbRef.child(id).child("showStartTime").setValue(strTime);
+                                                                                                            sldbRef.child(id).child("showWorkHours").setValue(strHours);
+                                                                                                            sldbRef.child(id).child("slotFlag").setValue(1);
+                                                                                                            intent.putExtra("company", companyFlag);
+                                                                                                            intent.putExtra("date", date);
+                                                                                                            intent.putExtra("time", strTime);
+                                                                                                            intent.putExtra("hours", strHours);
+                                                                                                            startActivity(intent);
                                                                                                         case 2:
                                                                                                             sldbRef.child(id).child("showDate").setValue(date);
                                                                                                             sldbRef.child(id).child("showStartTime").setValue(strTime);
@@ -547,6 +562,8 @@ public class BookingFragment extends Fragment {
                                                                                         @Override
                                                                                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
+
+                                                                                            progressDialog.dismiss();
                                                                                             startActivity(new Intent(refActivity, BookingFailedActivity.class));
 
                                                                                         }
@@ -561,6 +578,7 @@ public class BookingFragment extends Fragment {
                                                                                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                                                                     pd.dismiss();
+
 
                                                                                 }
 
