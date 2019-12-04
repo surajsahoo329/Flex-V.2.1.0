@@ -110,8 +110,8 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        etEmail=findViewById(R.id.etEmailPhone);
-        etPassword=findViewById(R.id.etPassword);
+        etEmail=findViewById(R.id.etEmailLogin);
+        etPassword=findViewById(R.id.etPasswordLogin);
         btnLogin=findViewById(R.id.btnProfile);
         TextView tvForgotPassword=findViewById(R.id.tvForgotPassword);
         TextView tvRegister=findViewById(R.id.tvRegister);

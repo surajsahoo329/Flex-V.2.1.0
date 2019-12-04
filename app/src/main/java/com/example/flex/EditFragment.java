@@ -36,9 +36,9 @@ public class EditFragment extends Fragment {
 
     static int updateFlag=0;
     private String id;
-    private EditText etName, etPhone;
+    private EditText etEditName, etEditPhone;
     private DatabaseReference usrRef, updateRef;
-    Button btnConfirm;
+    private Button btnConfirm;
     private boolean onceChecked=false;
     private String checkEmail, uEmail;
 
@@ -56,21 +56,21 @@ public class EditFragment extends Fragment {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
 
-            String updateName=etName.getText().toString();
-            String updatePhone=etPhone.getText().toString();
+            String updateName=etEditName.getText().toString();
+            String updatePhone=etEditPhone.getText().toString();
 
             if (updateName.length() == 0) {
 
-                etName.setError("Please enter your name");
+                etEditName.setError("Please enter your name");
 
             } else if (updatePhone.length() < 10) {
 
-                etPhone.setError("Please enter a valid phone number");
+                etEditPhone.setError("Please enter a valid phone number");
 
             } else {
 
-                etPhone.setError(null);
-                etName.setError(null);
+                etEditPhone.setError(null);
+                etEditName.setError(null);
 
             }
 
@@ -95,8 +95,8 @@ public class EditFragment extends Fragment {
 
         View parentHolder=inflater.inflate(R.layout.fragment_edit, container, false);
 
-        etName=parentHolder.findViewById(R.id.edName);
-        etPhone=parentHolder.findViewById(R.id.edPhone);
+        etEditName=parentHolder.findViewById(R.id.etEditName);
+        etEditPhone=parentHolder.findViewById(R.id.etEditPhone);
         btnConfirm=parentHolder.findViewById(R.id.btnEditProfile);
 
         final FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
@@ -125,10 +125,10 @@ public class EditFragment extends Fragment {
                             pd.dismiss();
                             String getName=ds.child("userName").getValue(String.class);
                             String getPhone=ds.child("userPhone").getValue(String.class);
-                            etName.setText(getName);
-                            etPhone.setText(getPhone);
-                            etName.addTextChangedListener(textWatcher);
-                            etPhone.addTextChangedListener(textWatcher);
+                            etEditName.setText(getName);
+                            etEditPhone.setText(getPhone);
+                            etEditName.addTextChangedListener(textWatcher);
+                            etEditPhone.addTextChangedListener(textWatcher);
                             break;
                         }
 
@@ -155,8 +155,8 @@ public class EditFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                final String updateName=etName.getText().toString();
-                final String updatePhone=etPhone.getText().toString();
+                final String updateName=etEditName.getText().toString();
+                final String updatePhone=etEditPhone.getText().toString();
 
                 final ProgressDialog pd=ProgressDialog.show(getActivity(), "Updating", "Hang on...", true);
                 updateRef=dbRef.child("User");

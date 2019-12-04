@@ -59,7 +59,7 @@ public class EditDrivingLicenseFragment extends Fragment {
     private final static int PICK_DL_CODE=2342;
     private int isUploadedDLFlag=0;
     private double progress;
-    private String uemail, checkEmail="",monthStr="";
+    private String uEmail, checkEmail="", monthStr="";
     private View parentLayout;
     private DatePickerDialog datePickerDialog;
     private EditText etDLName, etDLNumber, etDOB, etAddress, etIssueDate, etExpiryDate;
@@ -258,10 +258,10 @@ public class EditDrivingLicenseFragment extends Fragment {
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                    uemail=ds.child("userMail").getValue(String.class);
+                    uEmail=ds.child("userMail").getValue(String.class);
 
-                    assert uemail != null;
-                    if (uemail.equals(checkEmail)) {
+                    assert uEmail != null;
+                    if (uEmail.equals(checkEmail)) {
 
                         pd.dismiss();
 
@@ -337,10 +337,10 @@ public class EditDrivingLicenseFragment extends Fragment {
 
                         for(DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                            uemail = ds.child("userMail").getValue(String.class);
+                            uEmail=ds.child("userMail").getValue(String.class);
 
-                            assert uemail != null;
-                            if(uemail.equals(checkEmail)) {
+                            assert uEmail != null;
+                            if (uEmail.equals(checkEmail)) {
                                 isUploadedDLFlag = ds.child("userDLFlag").getValue(Integer.class);
 
                                 if(isUploadedDLFlag == 1)
@@ -560,10 +560,10 @@ public class EditDrivingLicenseFragment extends Fragment {
 
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                            uemail=ds.child("userMail").getValue(String.class);
+                            uEmail=ds.child("userMail").getValue(String.class);
 
-                            assert uemail != null;
-                            if (uemail.equals(checkEmail)) {
+                            assert uEmail != null;
+                            if (uEmail.equals(checkEmail)) {
 
                                 pd.dismiss();
 
@@ -687,10 +687,10 @@ public class EditDrivingLicenseFragment extends Fragment {
 
                                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                                    uemail = ds.child("userMail").getValue(String.class);
+                                    uEmail=ds.child("userMail").getValue(String.class);
 
-                                    assert uemail != null;
-                                    if (uemail.equals(checkEmail)) {
+                                    assert uEmail != null;
+                                    if (uEmail.equals(checkEmail)) {
 
                                         String id = ds.child("userId").getValue(String.class);
                                         assert id != null;

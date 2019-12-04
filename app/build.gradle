@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
     compileSdkVersion 29
@@ -8,6 +10,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -16,7 +19,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion = '29.0.0'
+    buildToolsVersion = '29.0.2'
 }
 
 dependencies {
@@ -55,6 +58,8 @@ dependencies {
     }
     implementation 'com.commit451:PhotoView:1.2.4'
     implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.firebase:firebase-perf:19.0.2'
+    implementation 'com.android.support:multidex:1.0.3'
 
 }
 

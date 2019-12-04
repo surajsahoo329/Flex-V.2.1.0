@@ -118,12 +118,12 @@ public class RegisterActivity extends AppCompatActivity implements ValueEventLis
         getSupportActionBar().setTitle(text);
 
 
-        etName=findViewById(R.id.etName);
-        etEmail=findViewById(R.id.etEmail);
-        etPhone=findViewById(R.id.etPhone);
-        etPassword=findViewById(R.id.etPassword);
-        etConfirmPassword=findViewById(R.id.etConfirmPassword);
-        btnSignUp=findViewById(R.id.btnProfile);
+        etName=findViewById(R.id.etNameRegister);
+        etEmail=findViewById(R.id.etEmailRegister);
+        etPhone=findViewById(R.id.etPhoneRegister);
+        etPassword=findViewById(R.id.etPasswordRegister);
+        etConfirmPassword=findViewById(R.id.etConfirmPasswordRegister);
+        btnSignUp=findViewById(R.id.btnSignUp);
         TextView tvLogin=findViewById(R.id.tvLogin);
         auth=FirebaseAuth.getInstance();
         parentLayout=findViewById(android.R.id.content);

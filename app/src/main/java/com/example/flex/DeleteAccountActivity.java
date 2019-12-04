@@ -57,7 +57,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
     private String uEmail, password;
     private StorageReference mStorageReference;
     private FirebaseUser user;
-    private EditText etDeletePass;
+    private EditText etDeletePassword;
     private Button btnDeleteAccount;
     private View parentLayout;
     static int deleteAccountFlag = 0;
@@ -71,12 +71,12 @@ public class DeleteAccountActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            String password=etDeletePass.getText().toString().trim();
+            String password=etDeletePassword.getText().toString().trim();
 
             if (password.length() < 8)
-                etDeletePass.setError("Password must have atleast 8 characters");
+                etDeletePassword.setError("Password must have atleast 8 characters");
             else
-                etDeletePass.setError(null);
+                etDeletePassword.setError(null);
 
             btnDeleteAccount.setEnabled(password.length() >= 8);
 
@@ -145,8 +145,8 @@ public class DeleteAccountActivity extends AppCompatActivity {
 
         parentLayout = findViewById(android.R.id.content);
         btnDeleteAccount=findViewById(R.id.btnConfirmDeleteAccount);
-        etDeletePass=findViewById(R.id.etDeletePassword);
-        etDeletePass.addTextChangedListener(textWatcher);
+        etDeletePassword=findViewById(R.id.etDeletePassword);
+        etDeletePassword.addTextChangedListener(textWatcher);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
@@ -165,7 +165,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
 
                 pd=ProgressDialog.show(DeleteAccountActivity.this, "Deleting account", "Please wait...", true);
 
-                password=etDeletePass.getText().toString();
+                password=etDeletePassword.getText().toString();
 
                 if (password.equals(""))
                 {

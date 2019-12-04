@@ -30,7 +30,7 @@
 
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etName"
+            android:id="@+id/etNameRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/solid_border"
@@ -50,7 +50,7 @@
 
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/etPhone"
+        android:id="@+id/etPhoneRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/solid_border"
@@ -71,7 +71,7 @@
 
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/etEmail"
+        android:id="@+id/etEmailRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_email"
@@ -91,7 +91,7 @@
 
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/etPassword"
+        android:id="@+id/etPasswordRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/solid_border"
@@ -112,7 +112,7 @@
 
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/etConfirmPassword"
+        android:id="@+id/etConfirmPasswordRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/solid_border"
@@ -132,7 +132,7 @@
         android:layout_height="30dp" />
 
     <Button
-        android:id="@+id/btnProfile"
+        android:id="@+id/btnSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"

@@ -44,7 +44,7 @@ public class ChangePasswordFragment extends Fragment {
     private DatabaseReference dbRef, usrRef;
     private String checkEmail, uEmail;
     View parentLayout;
-    Button btnChangePassword;
+    private Button btnChangePassword;
 
     ChangePasswordFragment() {
 
@@ -103,10 +103,10 @@ public class ChangePasswordFragment extends Fragment {
 
         parentLayout=Objects.requireNonNull(getActivity()).findViewById(android.R.id.content);
 
-        etCurrentPassword=parentHolder.findViewById(R.id.edCurrentPassword);
-        etNewPassword=parentHolder.findViewById(R.id.edNewPassword);
-        etConfirmNewPassword=parentHolder.findViewById(R.id.edConfirmNewPassword);
-        btnChangePassword=parentHolder.findViewById(R.id.ChangePassword);
+        etCurrentPassword=parentHolder.findViewById(R.id.etCurrentPassword);
+        etNewPassword=parentHolder.findViewById(R.id.etNewPassword);
+        etConfirmNewPassword=parentHolder.findViewById(R.id.etConfirmNewPassword);
+        btnChangePassword=parentHolder.findViewById(R.id.btnChangePassword);
 
         etConfirmNewPassword.addTextChangedListener(textWatcher);
         etNewPassword.addTextChangedListener(textWatcher);

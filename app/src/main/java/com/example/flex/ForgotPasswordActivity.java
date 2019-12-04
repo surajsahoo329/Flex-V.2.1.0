@@ -114,8 +114,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(text);
 
 
-        etEmail=findViewById(R.id.etEmail);
-        btnResetPassword=findViewById(R.id.btnChPass);
+        etEmail=findViewById(R.id.etEmailForgotPassword);
+        btnResetPassword=findViewById(R.id.btnResetPassword);
         parentLayout=findViewById(android.R.id.content);
         textView=findViewById(R.id.tvTryAgain);
         etEmail.addTextChangedListener(textWatcher);

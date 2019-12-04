@@ -25,7 +25,7 @@ public class DrivingLicenseDetailsFragment extends Fragment {
 
     private View parentLayout;
     private TextView tvDLNumber, tvName, tvDOB, tvAddress, tvIssueDate, tvExpiryDate;
-    private String checkMail="", umail="", dlNumber, dlName, DOB, address, issueDate, expiryDate;
+    private String checkMail="", uEmail="", dlNumber, dlName, DOB, address, issueDate, expiryDate;
 
     public DrivingLicenseDetailsFragment() {
         // Required empty public constructor
@@ -61,10 +61,10 @@ public class DrivingLicenseDetailsFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    umail=ds.child("userMail").getValue(String.class);
+                    uEmail=ds.child("userMail").getValue(String.class);
 
-                    assert umail != null;
-                    if (umail.equals(checkMail)) {
+                    assert uEmail != null;
+                    if (uEmail.equals(checkMail)) {
                         dlNumber=ds.child("licenseNumber").getValue(String.class);
                         dlName=ds.child("userName").getValue(String.class);
                         DOB=ds.child("userDOB").getValue(String.class);
