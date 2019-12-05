@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String uEmail,checkEmail;
     String id, name, getImageUrl;
     FrameLayout frameLayout;
-    boolean openDL, openProfile, openBooking, openBookingStackNull, openDLSubmit, openFeedbackSubmit;
+    boolean openDL, openProfile, openBookingStackNull, openDLSubmit, openFeedbackSubmit;
     private TabLayout tabLayout;
 
     ImageView imageView;
@@ -209,16 +209,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.commit();
         }
 
-        if (extras != null && extras.containsKey("openBooking"))
-            openBooking=extras.getBoolean("openBooking");
-        if (openBooking) {
-
-            tvDLFeedbackTabTitle.setVisibility(View.GONE);
-            ft.replace(R.id.fragment_container, new BookingFragment());
-            ft.addToBackStack(null);
-            ft.commit();
-        }
-
         if (extras != null && extras.containsKey("openDLSubmit"))
             openDLSubmit=extras.getBoolean("openDLSubmit");
         if (openDLSubmit) {
@@ -365,7 +355,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 frameLayout.setVisibility(View.VISIBLE);
                 ob=new BookingFragment();
                 ft.replace(R.id.fragment_container, ob);
-                ft.addToBackStack(null);
                 ft.commit();
                 drawer.closeDrawer(GravityCompat.START);
                 break;
