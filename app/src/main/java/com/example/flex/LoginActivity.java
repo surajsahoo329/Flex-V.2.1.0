@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     private View parentLayout;
     private String email, password;
     private Button btnLogin;
+    private boolean notVerified;
 
     private TextWatcher textWatcher=new TextWatcher() {
         @Override
@@ -139,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(RegisterActivity.registerFlag == 1)
         {
-            Snackbar.make(parentLayout,"Account created", Snackbar.LENGTH_LONG)
+            Snackbar.make(parentLayout, "Account created. Please verify your email.", Snackbar.LENGTH_LONG)
                     .setDuration(3000)
                     .setAction("Close", new View.OnClickListener() {
                         @Override
@@ -171,6 +172,24 @@ public class LoginActivity extends AppCompatActivity {
 
         }
 
+        Bundle extras=getIntent().getExtras();
+
+        if (extras != null && extras.containsKey("notVerified"))
+            notVerified=extras.getBoolean("notVerified");
+        if (notVerified) {
+
+            Snackbar.make(parentLayout, "Email not verified. Please check your email.", Snackbar.LENGTH_LONG)
+                    .setDuration(3000)
+                    .setAction("Close", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    })
+                    .setActionTextColor(getResources().getColor(android.R.color.background_light))
+                    .show();
+        }
+
         etEmail.addTextChangedListener(textWatcher);
         etPassword.addTextChangedListener(textWatcher);
 
@@ -182,6 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                 password=etPassword.getText().toString().trim();
 
                 final ProgressDialog pd=ProgressDialog.show(LoginActivity.this, "Verifying Credentials", "Please wait...", true);
+
 
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
@@ -281,5 +301,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
 
 }
