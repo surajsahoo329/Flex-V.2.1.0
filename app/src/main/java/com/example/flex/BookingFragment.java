@@ -67,7 +67,7 @@ public class BookingFragment extends Fragment {
     private Button btnBookSlot;
     private int btnCounter=0;
 
-    private DatabaseReference dbRef, sldbRef, dlRef;
+    private DatabaseReference dbRef, slotRef, dlRef, userRef;
     FirebaseAuth auth;
     FirebaseUser user;
     private String uEmail,id;
@@ -193,6 +193,7 @@ public class BookingFragment extends Fragment {
                             .show();
                 } else {
 
+
                     if (row_index == 1)
                         strTime="8 am";
                     else if (row_index == 2)
@@ -239,394 +240,420 @@ public class BookingFragment extends Fragment {
                     else
                         strHours="12 hours";
 
-                    new AlertDialog.Builder(refActivity)
-                            .setIcon(R.drawable.ic_launcher_round)
-                            .setTitle("Assigning Slot")
-                            .setMessage("Confirm booking ?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                    userRef=dbRef.child("User");
 
-                                    final ProgressDialog pd=ProgressDialog.show(refActivity, "Assigning slot", "Please wait...", true);
+                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                    dlRef=dbRef.child("DrivingLicense");
+                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                int photoFlag=ds.child("userPhotoFlag").getValue(Integer.class);
+                                String outerEmail=ds.child("userMail").getValue(String.class);
 
-                                    ValueEventListener dlListener=new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (photoFlag == 0 && checkMail.equals(outerEmail)) {
+                                    Snackbar.make(parentLayout, "Please upload your photo first", Snackbar.LENGTH_LONG)
+                                            .setDuration(3000)
+                                            .setAction("Close", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
 
-                                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                                uEmail=ds.child("userMail").getValue(String.class);
+                                                }
+                                            })
+                                            .setActionTextColor(getResources().getColor(android.R.color.background_light))
+                                            .show();
+                                } else if (photoFlag == 1 && checkMail.equals(outerEmail)) {
+                                    new AlertDialog.Builder(refActivity)
+                                            .setIcon(R.drawable.ic_launcher_round)
+                                            .setTitle("Assigning Slot")
+                                            .setMessage("Confirm booking ?")
+                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
 
-                                                if (checkMail.equals(uEmail)) {
-                                                    dlFlag=ds.child("userDLFlag").getValue(Integer.class);
-                                                    String date=ds.child("licenseExpiryDate").getValue(String.class);
-                                                    @SuppressLint("SimpleDateFormat") SimpleDateFormat df=new SimpleDateFormat("dd-MMM-yyyy");
-                                                    Date strDate=null;
-                                                    try {
-                                                        assert date != null;
-                                                        strDate=df.parse(date);
-                                                    } catch (ParseException e) {
-                                                        e.printStackTrace();
-                                                    }
+                                                    final ProgressDialog pd=ProgressDialog.show(refActivity, "Assigning slot", "Please wait...", true);
 
-                                                    Date currDate=Calendar.getInstance().getTime();
-                                                    if (dlFlag == 0) {
+                                                    dlRef=dbRef.child("DrivingLicense");
 
-                                                        pd.dismiss();
+                                                    ValueEventListener dlListener=new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                        Snackbar.make(parentLayout, "Please fill up your driving license's details first", Snackbar.LENGTH_LONG)
-                                                                .setDuration(3000)
-                                                                .setAction("Close", new View.OnClickListener() {
-                                                                    @Override
-                                                                    public void onClick(View v) {
+                                                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                                                uEmail=ds.child("userMail").getValue(String.class);
 
+                                                                if (checkMail.equals(uEmail)) {
+
+                                                                    dlFlag=ds.child("userDLFlag").getValue(Integer.class);
+                                                                    String date=ds.child("licenseExpiryDate").getValue(String.class);
+                                                                    @SuppressLint("SimpleDateFormat") SimpleDateFormat df=new SimpleDateFormat("dd-MMM-yyyy");
+                                                                    Date strDate=null;
+                                                                    try {
+                                                                        assert date != null;
+                                                                        strDate=df.parse(date);
+                                                                    } catch (ParseException e) {
+                                                                        e.printStackTrace();
                                                                     }
-                                                                })
-                                                                .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                                                                .show();
-                                                    } else if (currDate.compareTo(strDate) >= 0) {
-                                                        pd.dismiss();
-                                                        Snackbar.make(parentLayout, "Driving License expired", Snackbar.LENGTH_LONG)
-                                                                .setDuration(3000)
-                                                                .setAction("close", new View.OnClickListener() {
-                                                                    @Override
-                                                                    public void onClick(View v) {
 
-                                                                    }
-                                                                })
-                                                                .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                                                                .show();
+                                                                    Date currDate=Calendar.getInstance().getTime();
+                                                                    if (dlFlag == 0) {
 
-                                                    } else {
-                                                        sldbRef=dbRef.child("Slot");
-                                                        ValueEventListener slotListener=new ValueEventListener() {
-                                                            @Override
-                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                        pd.dismiss();
 
-                                                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                                                    uEmail=ds.child("userMail").getValue(String.class);
+                                                                        Snackbar.make(parentLayout, "Please fill up your driving license's details first", Snackbar.LENGTH_LONG)
+                                                                                .setDuration(3000)
+                                                                                .setAction("Close", new View.OnClickListener() {
+                                                                                    @Override
+                                                                                    public void onClick(View v) {
 
-                                                                    if (checkMail.equals(uEmail)) {
-                                                                        final int slotFlag=ds.child("slotFlag").getValue(Integer.class);
+                                                                                    }
+                                                                                })
+                                                                                .setActionTextColor(getResources().getColor(android.R.color.background_light))
+                                                                                .show();
+                                                                    } else if (currDate.compareTo(strDate) >= 0) {
+                                                                        pd.dismiss();
+                                                                        Snackbar.make(parentLayout, "Driving License expired", Snackbar.LENGTH_LONG)
+                                                                                .setDuration(3000)
+                                                                                .setAction("close", new View.OnClickListener() {
+                                                                                    @Override
+                                                                                    public void onClick(View v) {
 
-                                                                        if (slotFlag >= 1 && slotFlag <= 7) {
+                                                                                    }
+                                                                                })
+                                                                                .setActionTextColor(getResources().getColor(android.R.color.background_light))
+                                                                                .show();
 
-                                                                            Snackbar.make(parentLayout, "Please finish your current slot's work first to book another slot", Snackbar.LENGTH_LONG)
-                                                                                    .setDuration(3000)
-                                                                                    .setAction("Close", new View.OnClickListener() {
-                                                                                        @Override
-                                                                                        public void onClick(View v) {
+                                                                    } else {
+                                                                        slotRef=dbRef.child("Slot");
+                                                                        ValueEventListener slotListener=new ValueEventListener() {
+                                                                            @Override
+                                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                                                        }
-                                                                                    })
-                                                                                    .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                                                                                    .show();
+                                                                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                                                                    uEmail=ds.child("userMail").getValue(String.class);
 
-                                                                            pd.dismiss();
+                                                                                    if (checkMail.equals(uEmail)) {
+                                                                                        final int slotFlag=ds.child("slotFlag").getValue(Integer.class);
 
-                                                                        } else {
-                                                                            final String date=tvIDate.getText().toString().trim();
-                                                                            final int startTimeIndex=row_index;
+                                                                                        if (slotFlag >= 1 && slotFlag <= 7) {
 
-                                                                            dbRef=FirebaseDatabase.getInstance().getReference();
-                                                                            assRef=dbRef.child("Assignment");
+                                                                                            Snackbar.make(parentLayout, "Please finish your current slot's work first to book another slot", Snackbar.LENGTH_LONG)
+                                                                                                    .setDuration(3000)
+                                                                                                    .setAction("Close", new View.OnClickListener() {
+                                                                                                        @Override
+                                                                                                        public void onClick(View v) {
 
-                                                                            assRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                                @Override
-                                                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                                                        }
+                                                                                                    })
+                                                                                                    .setActionTextColor(getResources().getColor(android.R.color.background_light))
+                                                                                                    .show();
 
-                                                                                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                                                                        checkDate=ds.child("date").getValue(String.class);
+                                                                                            pd.dismiss();
 
-                                                                                        assert checkDate != null;
-                                                                                        if (checkDate.equals(date)) {
-                                                                                            checkID=ds.child("id").getValue(String.class);
-                                                                                            String loopID=ds.child("id").getValue(String.class);
-                                                                                            int intStartTime=startTimeIndex;
+                                                                                        } else {
+                                                                                            final String date=tvIDate.getText().toString().trim();
+                                                                                            final int startTimeIndex=row_index;
 
-                                                                                            assert loopID != null;
-                                                                                            if (loopID.equals(checkID)) {
-                                                                                                int val1=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+                                                                                            dbRef=FirebaseDatabase.getInstance().getReference();
+                                                                                            assRef=dbRef.child("Assignment");
 
-                                                                                                if (val1 < 10) {
-                                                                                                    assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val1 + 1);
-                                                                                                    companyFlag=1;
-                                                                                                    break;
-                                                                                                } else {
-                                                                                                    intStartTime+=11;
-                                                                                                    int val2=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+                                                                                            assRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                                                @Override
+                                                                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                                                                    if (val2 < 10) {
-                                                                                                        assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val2 + 1);
-                                                                                                        companyFlag=2;
-                                                                                                        break;
-                                                                                                    } else {
-                                                                                                        intStartTime+=11;
-                                                                                                        int val3=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+                                                                                                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                                                                                        checkDate=ds.child("date").getValue(String.class);
 
-                                                                                                        if (val3 < 10) {
-                                                                                                            assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val3 + 1);
-                                                                                                            companyFlag=3;
-                                                                                                            break;
-                                                                                                        } else {
-                                                                                                            intStartTime+=11;
-                                                                                                            int val4=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+                                                                                                        assert checkDate != null;
+                                                                                                        if (checkDate.equals(date)) {
+                                                                                                            checkID=ds.child("id").getValue(String.class);
+                                                                                                            String loopID=ds.child("id").getValue(String.class);
+                                                                                                            int intStartTime=startTimeIndex;
 
-                                                                                                            if (val4 < 10) {
-                                                                                                                assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val4 + 1);
-                                                                                                                companyFlag=4;
-                                                                                                                break;
-                                                                                                            } else {
-                                                                                                                intStartTime+=11;
-                                                                                                                int val5=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+                                                                                                            assert loopID != null;
+                                                                                                            if (loopID.equals(checkID)) {
+                                                                                                                int val1=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
 
-                                                                                                                if (val5 < 10) {
-                                                                                                                    assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val5 + 1);
-                                                                                                                    companyFlag=5;
+                                                                                                                if (val1 < 10) {
+                                                                                                                    assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val1 + 1);
+                                                                                                                    companyFlag=1;
                                                                                                                     break;
                                                                                                                 } else {
                                                                                                                     intStartTime+=11;
-                                                                                                                    int val6=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+                                                                                                                    int val2=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
 
-                                                                                                                    if (val6 < 10) {
-                                                                                                                        assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val6 + 1);
-                                                                                                                        companyFlag=6;
+                                                                                                                    if (val2 < 10) {
+                                                                                                                        assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val2 + 1);
+                                                                                                                        companyFlag=2;
                                                                                                                         break;
                                                                                                                     } else {
                                                                                                                         intStartTime+=11;
-                                                                                                                        int val7=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+                                                                                                                        int val3=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
 
-                                                                                                                        if (val7 < 10) {
-                                                                                                                            assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val7 + 1);
-                                                                                                                            companyFlag=7;
+                                                                                                                        if (val3 < 10) {
+                                                                                                                            assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val3 + 1);
+                                                                                                                            companyFlag=3;
                                                                                                                             break;
                                                                                                                         } else {
+                                                                                                                            intStartTime+=11;
+                                                                                                                            int val4=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
 
-                                                                                                                            Snackbar.make(parentLayout, "Slots full. Please select different slot timing.", Snackbar.LENGTH_LONG)
-                                                                                                                                    .setDuration(3000)
-                                                                                                                                    .setAction("Close", new View.OnClickListener() {
-                                                                                                                                        @Override
-                                                                                                                                        public void onClick(View v) {
+                                                                                                                            if (val4 < 10) {
+                                                                                                                                assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val4 + 1);
+                                                                                                                                companyFlag=4;
+                                                                                                                                break;
+                                                                                                                            } else {
+                                                                                                                                intStartTime+=11;
+                                                                                                                                int val5=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
 
+                                                                                                                                if (val5 < 10) {
+                                                                                                                                    assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val5 + 1);
+                                                                                                                                    companyFlag=5;
+                                                                                                                                    break;
+                                                                                                                                } else {
+                                                                                                                                    intStartTime+=11;
+                                                                                                                                    int val6=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+
+                                                                                                                                    if (val6 < 10) {
+                                                                                                                                        assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val6 + 1);
+                                                                                                                                        companyFlag=6;
+                                                                                                                                        break;
+                                                                                                                                    } else {
+                                                                                                                                        intStartTime+=11;
+                                                                                                                                        int val7=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+
+                                                                                                                                        if (val7 < 10) {
+                                                                                                                                            assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val7 + 1);
+                                                                                                                                            companyFlag=7;
+                                                                                                                                            break;
+                                                                                                                                        } else {
+
+                                                                                                                                            Snackbar.make(parentLayout, "Slots full. Please select different slot timing.", Snackbar.LENGTH_LONG)
+                                                                                                                                                    .setDuration(3000)
+                                                                                                                                                    .setAction("Close", new View.OnClickListener() {
+                                                                                                                                                        @Override
+                                                                                                                                                        public void onClick(View v) {
+
+                                                                                                                                                        }
+                                                                                                                                                    })
+                                                                                                                                                    .setActionTextColor(getResources().getColor(android.R.color.background_light))
+                                                                                                                                                    .show();
+
+                                                                                                                                            pd.dismiss();
+
+                                                                                                                                            break;
                                                                                                                                         }
-                                                                                                                                    })
-                                                                                                                                    .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                                                                                                                                    .show();
 
-                                                                                                                            pd.dismiss();
+                                                                                                                                    }
 
-                                                                                                                            break;
+                                                                                                                                }
+
+                                                                                                                            }
+
                                                                                                                         }
+
+
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                            break;
+                                                                                                        }
+
+                                                                                                    }
+
+                                                                                                    if (!checkDate.equals(date))
+                                                                                                        addDate(date);
+
+                                                                                                    slotRef=dbRef.child("Slot");
+
+
+                                                                                                    ValueEventListener slotListener=new ValueEventListener() {
+
+                                                                                                        ProgressDialog progressDialog=ProgressDialog.show(getActivity(), "", "Hang on...", true);
+
+                                                                                                        @Override
+                                                                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                                                                                                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                                                                                                                uEmail=ds.child("userMail").getValue(String.class);
+                                                                                                                slotFlagCheck=ds.child("slotFlag").getValue(Integer.class);
+
+                                                                                                                assert uEmail != null;
+                                                                                                                if (uEmail.equals(checkMail) && (slotFlagCheck == 0 || slotFlagCheck == 8)) {
+
+                                                                                                                    id=ds.child("userId").getValue(String.class);
+                                                                                                                    assert id != null;
+                                                                                                                    Intent intent=new Intent(refActivity, BookingConfirmedActivity.class);
+
+                                                                                                                    switch (companyFlag) {
+
+                                                                                                                        case 1:
+                                                                                                                            slotRef.child(id).child("showDate").setValue(date);
+                                                                                                                            slotRef.child(id).child("showStartTime").setValue(strTime);
+                                                                                                                            slotRef.child(id).child("showWorkHours").setValue(strHours);
+                                                                                                                            slotRef.child(id).child("slotFlag").setValue(1);
+                                                                                                                            intent.putExtra("company", companyFlag);
+                                                                                                                            intent.putExtra("date", date);
+                                                                                                                            intent.putExtra("time", strTime);
+                                                                                                                            intent.putExtra("hours", strHours);
+                                                                                                                            startActivity(intent);
+                                                                                                                            break;
+                                                                                                                        case 2:
+                                                                                                                            slotRef.child(id).child("showDate").setValue(date);
+                                                                                                                            slotRef.child(id).child("showStartTime").setValue(strTime);
+                                                                                                                            slotRef.child(id).child("showWorkHours").setValue(strHours);
+                                                                                                                            slotRef.child(id).child("slotFlag").setValue(2);
+                                                                                                                            intent.putExtra("company", companyFlag);
+                                                                                                                            intent.putExtra("date", date);
+                                                                                                                            intent.putExtra("time", strTime);
+                                                                                                                            intent.putExtra("hours", strHours);
+                                                                                                                            startActivity(intent);
+                                                                                                                            break;
+                                                                                                                        case 3:
+                                                                                                                            slotRef.child(id).child("showDate").setValue(date);
+                                                                                                                            slotRef.child(id).child("showStartTime").setValue(strTime);
+                                                                                                                            slotRef.child(id).child("showWorkHours").setValue(strHours);
+                                                                                                                            slotRef.child(id).child("slotFlag").setValue(3);
+                                                                                                                            intent.putExtra("company", companyFlag);
+                                                                                                                            intent.putExtra("date", date);
+                                                                                                                            intent.putExtra("time", strTime);
+                                                                                                                            intent.putExtra("hours", strHours);
+                                                                                                                            startActivity(intent);
+                                                                                                                            break;
+                                                                                                                        case 4:
+                                                                                                                            slotRef.child(id).child("showDate").setValue(date);
+                                                                                                                            slotRef.child(id).child("showStartTime").setValue(strTime);
+                                                                                                                            slotRef.child(id).child("showWorkHours").setValue(strHours);
+                                                                                                                            slotRef.child(id).child("slotFlag").setValue(4);
+                                                                                                                            intent.putExtra("company", companyFlag);
+                                                                                                                            intent.putExtra("date", date);
+                                                                                                                            intent.putExtra("time", strTime);
+                                                                                                                            intent.putExtra("hours", strHours);
+                                                                                                                            startActivity(intent);
+                                                                                                                            break;
+                                                                                                                        case 5:
+                                                                                                                            slotRef.child(id).child("showDate").setValue(date);
+                                                                                                                            slotRef.child(id).child("showStartTime").setValue(strTime);
+                                                                                                                            slotRef.child(id).child("showWorkHours").setValue(strHours);
+                                                                                                                            slotRef.child(id).child("slotFlag").setValue(5);
+                                                                                                                            intent.putExtra("company", companyFlag);
+                                                                                                                            intent.putExtra("date", date);
+                                                                                                                            intent.putExtra("time", strTime);
+                                                                                                                            intent.putExtra("hours", strHours);
+                                                                                                                            startActivity(intent);
+                                                                                                                            break;
+                                                                                                                        case 6:
+                                                                                                                            slotRef.child(id).child("showDate").setValue(date);
+                                                                                                                            slotRef.child(id).child("showStartTime").setValue(strTime);
+                                                                                                                            slotRef.child(id).child("showWorkHours").setValue(strHours);
+                                                                                                                            slotRef.child(id).child("slotFlag").setValue(6);
+                                                                                                                            intent.putExtra("company", companyFlag);
+                                                                                                                            intent.putExtra("date", date);
+                                                                                                                            intent.putExtra("time", strTime);
+                                                                                                                            intent.putExtra("hours", strHours);
+                                                                                                                            startActivity(intent);
+                                                                                                                            break;
+                                                                                                                        case 7:
+                                                                                                                            slotRef.child(id).child("showDate").setValue(date);
+                                                                                                                            slotRef.child(id).child("showStartTime").setValue(strTime);
+                                                                                                                            slotRef.child(id).child("showWorkHours").setValue(strHours);
+                                                                                                                            slotRef.child(id).child("slotFlag").setValue(7);
+                                                                                                                            intent.putExtra("company", companyFlag);
+                                                                                                                            intent.putExtra("date", date);
+                                                                                                                            intent.putExtra("time", strTime);
+                                                                                                                            intent.putExtra("hours", strHours);
+                                                                                                                            startActivity(intent);
+                                                                                                                            break;
 
                                                                                                                     }
 
                                                                                                                 }
-
                                                                                                             }
+
 
                                                                                                         }
 
+                                                                                                        @Override
+                                                                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                                                                                    }
+
+                                                                                                            progressDialog.dismiss();
+                                                                                                            startActivity(new Intent(refActivity, BookingFailedActivity.class));
+
+                                                                                                        }
+                                                                                                    };
+
+                                                                                                    slotRef.addListenerForSingleValueEvent(slotListener);
+
+
                                                                                                 }
-                                                                                            }
-                                                                                            break;
-                                                                                        }
 
+                                                                                                @Override
+                                                                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                                                                    pd.dismiss();
+
+
+                                                                                                }
+
+                                                                                            });
+
+
+                                                                                        }
                                                                                     }
-
-                                                                                    if (!checkDate.equals(date))
-                                                                                        addDate(date);
-
-                                                                                    sldbRef=dbRef.child("Slot");
-
-
-                                                                                    ValueEventListener slotListener=new ValueEventListener() {
-
-                                                                                        ProgressDialog progressDialog=ProgressDialog.show(getActivity(), "", "Hang on...", true);
-
-                                                                                        @Override
-                                                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
-                                                                                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-                                                                                                uEmail=ds.child("userMail").getValue(String.class);
-                                                                                                slotFlagCheck=ds.child("slotFlag").getValue(Integer.class);
-
-                                                                                                assert uEmail != null;
-                                                                                                if (uEmail.equals(checkMail) && (slotFlagCheck == 0 || slotFlagCheck == 8)) {
-
-                                                                                                    id=ds.child("userId").getValue(String.class);
-                                                                                                    assert id != null;
-                                                                                                    Intent intent=new Intent(refActivity, BookingConfirmedActivity.class);
-
-                                                                                                    switch (companyFlag) {
-
-                                                                                                        case 1:
-                                                                                                            sldbRef.child(id).child("showDate").setValue(date);
-                                                                                                            sldbRef.child(id).child("showStartTime").setValue(strTime);
-                                                                                                            sldbRef.child(id).child("showWorkHours").setValue(strHours);
-                                                                                                            sldbRef.child(id).child("slotFlag").setValue(1);
-                                                                                                            intent.putExtra("company", companyFlag);
-                                                                                                            intent.putExtra("date", date);
-                                                                                                            intent.putExtra("time", strTime);
-                                                                                                            intent.putExtra("hours", strHours);
-                                                                                                            startActivity(intent);
-                                                                                                        case 2:
-                                                                                                            sldbRef.child(id).child("showDate").setValue(date);
-                                                                                                            sldbRef.child(id).child("showStartTime").setValue(strTime);
-                                                                                                            sldbRef.child(id).child("showWorkHours").setValue(strHours);
-                                                                                                            sldbRef.child(id).child("slotFlag").setValue(2);
-                                                                                                            intent.putExtra("company", companyFlag);
-                                                                                                            intent.putExtra("date", date);
-                                                                                                            intent.putExtra("time", strTime);
-                                                                                                            intent.putExtra("hours", strHours);
-                                                                                                            startActivity(intent);
-                                                                                                            break;
-                                                                                                        case 3:
-                                                                                                            sldbRef.child(id).child("showDate").setValue(date);
-                                                                                                            sldbRef.child(id).child("showStartTime").setValue(strTime);
-                                                                                                            sldbRef.child(id).child("showWorkHours").setValue(strHours);
-                                                                                                            sldbRef.child(id).child("slotFlag").setValue(3);
-                                                                                                            intent.putExtra("company", companyFlag);
-                                                                                                            intent.putExtra("date", date);
-                                                                                                            intent.putExtra("time", strTime);
-                                                                                                            intent.putExtra("hours", strHours);
-                                                                                                            startActivity(intent);
-                                                                                                            break;
-                                                                                                        case 4:
-                                                                                                            sldbRef.child(id).child("showDate").setValue(date);
-                                                                                                            sldbRef.child(id).child("showStartTime").setValue(strTime);
-                                                                                                            sldbRef.child(id).child("showWorkHours").setValue(strHours);
-                                                                                                            sldbRef.child(id).child("slotFlag").setValue(4);
-                                                                                                            intent.putExtra("company", companyFlag);
-                                                                                                            intent.putExtra("date", date);
-                                                                                                            intent.putExtra("time", strTime);
-                                                                                                            intent.putExtra("hours", strHours);
-                                                                                                            startActivity(intent);
-                                                                                                            break;
-                                                                                                        case 5:
-                                                                                                            sldbRef.child(id).child("showDate").setValue(date);
-                                                                                                            sldbRef.child(id).child("showStartTime").setValue(strTime);
-                                                                                                            sldbRef.child(id).child("showWorkHours").setValue(strHours);
-                                                                                                            sldbRef.child(id).child("slotFlag").setValue(5);
-                                                                                                            intent.putExtra("company", companyFlag);
-                                                                                                            intent.putExtra("date", date);
-                                                                                                            intent.putExtra("time", strTime);
-                                                                                                            intent.putExtra("hours", strHours);
-                                                                                                            startActivity(intent);
-                                                                                                            break;
-                                                                                                        case 6:
-                                                                                                            sldbRef.child(id).child("showDate").setValue(date);
-                                                                                                            sldbRef.child(id).child("showStartTime").setValue(strTime);
-                                                                                                            sldbRef.child(id).child("showWorkHours").setValue(strHours);
-                                                                                                            sldbRef.child(id).child("slotFlag").setValue(6);
-                                                                                                            intent.putExtra("company", companyFlag);
-                                                                                                            intent.putExtra("date", date);
-                                                                                                            intent.putExtra("time", strTime);
-                                                                                                            intent.putExtra("hours", strHours);
-                                                                                                            startActivity(intent);
-                                                                                                            break;
-                                                                                                        case 7:
-                                                                                                            sldbRef.child(id).child("showDate").setValue(date);
-                                                                                                            sldbRef.child(id).child("showStartTime").setValue(strTime);
-                                                                                                            sldbRef.child(id).child("showWorkHours").setValue(strHours);
-                                                                                                            sldbRef.child(id).child("slotFlag").setValue(7);
-                                                                                                            intent.putExtra("company", companyFlag);
-                                                                                                            intent.putExtra("date", date);
-                                                                                                            intent.putExtra("time", strTime);
-                                                                                                            intent.putExtra("hours", strHours);
-                                                                                                            startActivity(intent);
-                                                                                                            break;
-                                                                                                        default:
-                                                                                                            sldbRef.child(id).child("showDate").setValue(date);
-                                                                                                            sldbRef.child(id).child("showStartTime").setValue(strTime);
-                                                                                                            sldbRef.child(id).child("showWorkHours").setValue(strHours);
-                                                                                                            sldbRef.child(id).child("slotFlag").setValue(1);
-                                                                                                            intent.putExtra("company", companyFlag);
-                                                                                                            intent.putExtra("date", date);
-                                                                                                            intent.putExtra("time", strTime);
-                                                                                                            intent.putExtra("hours", strHours);
-                                                                                                            startActivity(intent);
-
-                                                                                                    }
-
-                                                                                                }
-                                                                                            }
-
-
-                                                                                        }
-
-                                                                                        @Override
-                                                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-
-                                                                                            progressDialog.dismiss();
-                                                                                            startActivity(new Intent(refActivity, BookingFailedActivity.class));
-
-                                                                                        }
-                                                                                    };
-
-                                                                                    sldbRef.addListenerForSingleValueEvent(slotListener);
-
-
                                                                                 }
 
-                                                                                @Override
-                                                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                                            }
 
-                                                                                    pd.dismiss();
+                                                                            @Override
+                                                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                                                pd.dismiss();
+
+                                                                            }
+                                                                        };
+
+                                                                        slotRef.addListenerForSingleValueEvent(slotListener);
+                                                                        pd.dismiss();
 
 
-                                                                                }
-
-                                                                            });
-
-
-                                                                        }
                                                                     }
+
+                                                                    break;
+
                                                                 }
-
                                                             }
 
-                                                            @Override
-                                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                        }
 
-                                                                pd.dismiss();
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                                            }
-                                                        };
+                                                            pd.dismiss();
 
-                                                        sldbRef.addListenerForSingleValueEvent(slotListener);
-                                                        pd.dismiss();
+                                                        }
 
 
-                                                    }
+                                                    };
 
-                                                    break;
+                                                    dlRef.addListenerForSingleValueEvent(dlListener);
 
                                                 }
-                                            }
-
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                            pd.dismiss();
-
-                                        }
-
-
-                                    };
-
-                                    dlRef.addListenerForSingleValueEvent(dlListener);
+                                            })
+                                            .setNegativeButton("No", null).show();
 
                                 }
-                            })
-                            .setNegativeButton("No", null).show();
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
 
 
                 }
