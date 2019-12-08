@@ -270,9 +270,8 @@ public class RegisterActivity extends AppCompatActivity implements ValueEventLis
 
         String usrMail=etEmail.getText().toString().trim();
         String userName="", LicenseNumber="", userDOB="", userAddress="", LicenseIssueDate="", LicenseExpiryDate="";
-        int userDLFlag=0;
         String id=databaseDL.push().getKey();
-        DrivingLicense drivingLicense=new DrivingLicense(id, usrMail, userName, LicenseNumber, userDOB, userAddress, LicenseIssueDate, LicenseExpiryDate, userDLFlag);
+        DrivingLicense drivingLicense=new DrivingLicense(id, usrMail, userName, LicenseNumber, userDOB, userAddress, LicenseIssueDate, LicenseExpiryDate);
         assert id != null;
         databaseDL.child(id).setValue(drivingLicense);
 

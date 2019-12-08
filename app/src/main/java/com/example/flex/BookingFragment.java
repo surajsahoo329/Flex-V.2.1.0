@@ -62,8 +62,8 @@ public class BookingFragment extends Fragment {
     private View parentHolder, parentLayout ;
     private String monthStr;
     private TextView tvIDate;
-    private int row_index, column_index, dlFlag = 0, companyFlag = 0, slotFlagCheck ;
-    private String strTime, strHours ;
+    private int row_index, column_index, companyFlag=0, slotFlagCheck;
+    private String strTime, strHours, dlFlag;
     private Button btnBookSlot;
     private int btnCounter=0;
 
@@ -283,7 +283,7 @@ public class BookingFragment extends Fragment {
 
                                                                 if (checkMail.equals(uEmail)) {
 
-                                                                    dlFlag=ds.child("userDLFlag").getValue(Integer.class);
+                                                                    dlFlag=ds.child("licenseNumber").getValue(String.class);
                                                                     String date=ds.child("licenseExpiryDate").getValue(String.class);
                                                                     @SuppressLint("SimpleDateFormat") SimpleDateFormat df=new SimpleDateFormat("dd-MMM-yyyy");
                                                                     Date strDate=null;
@@ -295,7 +295,7 @@ public class BookingFragment extends Fragment {
                                                                     }
 
                                                                     Date currDate=Calendar.getInstance().getTime();
-                                                                    if (dlFlag == 0) {
+                                                                    if (dlFlag.equals("")) {
 
                                                                         pd.dismiss();
 
@@ -484,7 +484,7 @@ public class BookingFragment extends Fragment {
                                                                                                                 assert uEmail != null;
                                                                                                                 if (uEmail.equals(checkMail) && (slotFlagCheck == 0 || slotFlagCheck == 8)) {
 
-                                                                                                                    id=ds.child("userId").getValue(String.class);
+                                                                                                                    id=ds.child("slotId").getValue(String.class);
                                                                                                                     assert id != null;
                                                                                                                     Intent intent=new Intent(refActivity, BookingConfirmedActivity.class);
 

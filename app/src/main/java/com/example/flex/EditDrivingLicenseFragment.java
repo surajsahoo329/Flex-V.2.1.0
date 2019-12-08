@@ -265,7 +265,7 @@ public class EditDrivingLicenseFragment extends Fragment {
 
                         pd.dismiss();
 
-                        String id=ds.child("userId").getValue(String.class);
+                        String id=ds.child("licenseId").getValue(String.class);
 
                         assert id != null;
                         String dlNumber=ds.child("licenseNumber").getValue(String.class);
@@ -567,7 +567,7 @@ public class EditDrivingLicenseFragment extends Fragment {
 
                                 pd.dismiss();
 
-                                String id=ds.child("userId").getValue(String.class);
+                                String id=ds.child("licenseId").getValue(String.class);
 
                                 assert id != null;
                                 dlRef.child(id).child("licenseNumber").setValue(dlNumber);
@@ -692,7 +692,7 @@ public class EditDrivingLicenseFragment extends Fragment {
                                     assert uEmail != null;
                                     if (uEmail.equals(checkEmail)) {
 
-                                        String id = ds.child("userId").getValue(String.class);
+                                        String id=ds.child("licenseId").getValue(String.class);
                                         assert id != null;
                                         usrRef.child(id).child("userDLFlag").setValue(1);
                                         break;

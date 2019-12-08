@@ -95,7 +95,7 @@ public class SendFeedbackFragment extends Fragment {
                                     Date date=new Date();
                                     DateFormat dateFormat=android.text.format.DateFormat.getDateFormat(getActivity());
 
-                                    String id = ds.child("userId").getValue(String.class);
+                                    String id=ds.child("feedbackId").getValue(String.class);
                                     assert id != null;
                                     fdbRef.child(id).child("feedback").setValue(feedbackText);
                                     fdbRef.child(id).child("rating").setValue(feedbackRating);

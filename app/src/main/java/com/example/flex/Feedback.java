@@ -2,7 +2,7 @@ package com.example.flex;
 
 public class Feedback {
 
-    private String userId;
+    private String feedbackId;
     private String userMail;
     private String feedback;
     private String rating;
@@ -10,14 +10,16 @@ public class Feedback {
 
     Feedback(String userId, String userMail, String rating, String feedback, String date)
     {
-        this.userId = userId;
+        this.feedbackId=userId;
         this.userMail = userMail;
         this.rating = rating;
         this.feedback = feedback;
         this.date=date;
     }
 
-    public String getUserId() { return userId; }
+    public String getFeedbackId() {
+        return feedbackId;
+    }
 
     public String getUserMail()
     {

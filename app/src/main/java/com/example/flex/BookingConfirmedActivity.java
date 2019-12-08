@@ -135,7 +135,7 @@ public class BookingConfirmedActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         Intent intent=new Intent(BookingConfirmedActivity.this, MainActivity.class);
-        intent.putExtra("openBooking", true);
+        intent.putExtra("openBookingStackNull", true);
         overridePendingTransition(0, 0);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         finish();
@@ -147,7 +147,7 @@ public class BookingConfirmedActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         Intent intent=new Intent(BookingConfirmedActivity.this, MainActivity.class);
-        intent.putExtra("openBooking", true);
+        intent.putExtra("openBookingStackNull", true);
         overridePendingTransition(0, 0);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         finish();

@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 public class Slot {
 
     private String userMail;
-    private String userId;
+    private String slotId;
     private int slotFlag;
     private String showDate;
     private String showStartTime;
@@ -19,7 +19,7 @@ public class Slot {
     Slot(String userMail, String userId, int slotFlag, String showDate, String showStartTime, String showWorkHours) {
 
         this.userMail=userMail;
-        this.userId=userId;
+        this.slotId=userId;
         this.slotFlag=slotFlag;
         this.showDate=showDate;
         this.showStartTime=showStartTime;
@@ -31,8 +31,8 @@ public class Slot {
         return userMail;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getSlotId() {
+        return slotId;
     }
 
     public int getSlotFlag() {

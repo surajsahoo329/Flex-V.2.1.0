@@ -2,7 +2,7 @@ package com.example.flex;
 
 public class DrivingLicense {
 
-    private String userId;
+    private String licenseId;
     private String userMail;
     private String userName;
     private String LicenseNumber;
@@ -10,7 +10,6 @@ public class DrivingLicense {
     private String userAddress;
     private String LicenseIssueDate;
     private String LicenseExpiryDate;
-    private int userDLFlag ;
 
     //Constructor
     //Function Overloading(Look it up)
@@ -20,8 +19,8 @@ public class DrivingLicense {
     }
 
     //Another constructor to initialize our variables
-    DrivingLicense(String userId, String userMail, String userName, String LicenseNumber, String userDOB, String userAddress, String LicenseIssueDate, String LicenseExpiryDate, int userDLFlag) {
-        this.userId = userId;
+    DrivingLicense(String userId, String userMail, String userName, String LicenseNumber, String userDOB, String userAddress, String LicenseIssueDate, String LicenseExpiryDate) {
+        this.licenseId=userId;
         this.userMail=userMail;
         this.userName = userName;
         this.LicenseNumber = LicenseNumber;
@@ -29,12 +28,10 @@ public class DrivingLicense {
         this.userAddress = userAddress;
         this.LicenseIssueDate=LicenseIssueDate;
         this.LicenseExpiryDate=LicenseExpiryDate;
-        this.userDLFlag = userDLFlag;
-
     }
 
-    public String getUserId() {
-        return userId;
+    public String getLicenseId() {
+        return licenseId;
     }
 
     public String getUserMail() {
@@ -63,10 +60,6 @@ public class DrivingLicense {
 
     public String getLicenseExpiryDate() {
         return LicenseExpiryDate;
-    }
-
-    public int getUserDLFlag() {
-        return userDLFlag;
     }
 
 }
