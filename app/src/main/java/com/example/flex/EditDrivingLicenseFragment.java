@@ -576,7 +576,6 @@ public class EditDrivingLicenseFragment extends Fragment {
                                 dlRef.child(id).child("userAddress").setValue(address);
                                 dlRef.child(id).child("licenseIssueDate").setValue(issueDate);
                                 dlRef.child(id).child("licenseExpiryDate").setValue(expiryDate);
-                                dlRef.child(id).child("userDLFlag").setValue(1);
 
                                 Intent intent=new Intent(getActivity(), MainActivity.class);
                                 intent.putExtra("openDLSubmit", true);
@@ -694,7 +693,6 @@ public class EditDrivingLicenseFragment extends Fragment {
 
                                         String id=ds.child("licenseId").getValue(String.class);
                                         assert id != null;
-                                        usrRef.child(id).child("userDLFlag").setValue(1);
                                         break;
                                     }
 
