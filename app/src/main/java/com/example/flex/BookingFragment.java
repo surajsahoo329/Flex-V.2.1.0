@@ -350,99 +350,103 @@ public class BookingFragment extends Fragment {
                                                                                             pd.dismiss();
 
                                                                                         } else {
+
                                                                                             final String date=tvIDate.getText().toString().trim();
                                                                                             final int startTimeIndex=row_index;
 
                                                                                             dbRef=FirebaseDatabase.getInstance().getReference();
                                                                                             assRef=dbRef.child("Assignment");
 
+
                                                                                             assRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                                                                                 @Override
                                                                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                                                                                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
                                                                                                         checkDate=ds.child("date").getValue(String.class);
 
                                                                                                         assert checkDate != null;
-                                                                                                        if (checkDate.equals(date)) {
-                                                                                                            checkID=ds.child("id").getValue(String.class);
-                                                                                                            String loopID=ds.child("id").getValue(String.class);
-                                                                                                            int intStartTime=startTimeIndex;
+                                                                                                        if (!checkDate.equals(date))
+                                                                                                            addDate(date);
 
-                                                                                                            assert loopID != null;
-                                                                                                            if (loopID.equals(checkID)) {
-                                                                                                                int val1=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
 
-                                                                                                                if (val1 < 10) {
-                                                                                                                    assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val1 + 1);
-                                                                                                                    companyFlag=1;
+                                                                                                        checkID=ds.child("id").getValue(String.class);
+                                                                                                        String loopID=ds.child("id").getValue(String.class);
+                                                                                                        int intStartTime=startTimeIndex;
+
+                                                                                                        assert loopID != null;
+                                                                                                        if (loopID.equals(checkID)) {
+                                                                                                            int val1=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+
+                                                                                                            if (val1 < 10) {
+                                                                                                                assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val1 + 1);
+                                                                                                                companyFlag=1;
+                                                                                                                break;
+                                                                                                            } else {
+                                                                                                                intStartTime+=11;
+                                                                                                                int val2=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+
+                                                                                                                if (val2 < 10) {
+                                                                                                                    assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val2 + 1);
+                                                                                                                    companyFlag=2;
                                                                                                                     break;
                                                                                                                 } else {
                                                                                                                     intStartTime+=11;
-                                                                                                                    int val2=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+                                                                                                                    int val3=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
 
-                                                                                                                    if (val2 < 10) {
-                                                                                                                        assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val2 + 1);
-                                                                                                                        companyFlag=2;
+                                                                                                                    if (val3 < 10) {
+                                                                                                                        assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val3 + 1);
+                                                                                                                        companyFlag=3;
                                                                                                                         break;
                                                                                                                     } else {
                                                                                                                         intStartTime+=11;
-                                                                                                                        int val3=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+                                                                                                                        int val4=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
 
-                                                                                                                        if (val3 < 10) {
-                                                                                                                            assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val3 + 1);
-                                                                                                                            companyFlag=3;
+                                                                                                                        if (val4 < 10) {
+                                                                                                                            assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val4 + 1);
+                                                                                                                            companyFlag=4;
                                                                                                                             break;
                                                                                                                         } else {
                                                                                                                             intStartTime+=11;
-                                                                                                                            int val4=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+                                                                                                                            int val5=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
 
-                                                                                                                            if (val4 < 10) {
-                                                                                                                                assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val4 + 1);
-                                                                                                                                companyFlag=4;
+                                                                                                                            if (val5 < 10) {
+                                                                                                                                assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val5 + 1);
+                                                                                                                                companyFlag=5;
                                                                                                                                 break;
                                                                                                                             } else {
                                                                                                                                 intStartTime+=11;
-                                                                                                                                int val5=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+                                                                                                                                int val6=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
 
-                                                                                                                                if (val5 < 10) {
-                                                                                                                                    assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val5 + 1);
-                                                                                                                                    companyFlag=5;
+                                                                                                                                if (val6 < 10) {
+                                                                                                                                    assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val6 + 1);
+                                                                                                                                    companyFlag=6;
                                                                                                                                     break;
                                                                                                                                 } else {
                                                                                                                                     intStartTime+=11;
-                                                                                                                                    int val6=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
+                                                                                                                                    int val7=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
 
-                                                                                                                                    if (val6 < 10) {
-                                                                                                                                        assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val6 + 1);
-                                                                                                                                        companyFlag=6;
+                                                                                                                                    if (val7 < 10) {
+                                                                                                                                        assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val7 + 1);
+                                                                                                                                        companyFlag=7;
                                                                                                                                         break;
                                                                                                                                     } else {
-                                                                                                                                        intStartTime+=11;
-                                                                                                                                        int val7=ds.child(Integer.toString(intStartTime)).getValue(Integer.class);
 
-                                                                                                                                        if (val7 < 10) {
-                                                                                                                                            assRef.child(loopID).child(Integer.toString(intStartTime)).setValue(val7 + 1);
-                                                                                                                                            companyFlag=7;
-                                                                                                                                            break;
-                                                                                                                                        } else {
+                                                                                                                                        Snackbar.make(parentLayout, "Slots full. Please select different slot timing.", Snackbar.LENGTH_LONG)
+                                                                                                                                                .setDuration(3000)
+                                                                                                                                                .setAction("Close", new View.OnClickListener() {
+                                                                                                                                                    @Override
+                                                                                                                                                    public void onClick(View v) {
 
-                                                                                                                                            Snackbar.make(parentLayout, "Slots full. Please select different slot timing.", Snackbar.LENGTH_LONG)
-                                                                                                                                                    .setDuration(3000)
-                                                                                                                                                    .setAction("Close", new View.OnClickListener() {
-                                                                                                                                                        @Override
-                                                                                                                                                        public void onClick(View v) {
+                                                                                                                                                    }
+                                                                                                                                                })
+                                                                                                                                                .setActionTextColor(getResources().getColor(android.R.color.background_light))
+                                                                                                                                                .show();
 
-                                                                                                                                                        }
-                                                                                                                                                    })
-                                                                                                                                                    .setActionTextColor(getResources().getColor(android.R.color.background_light))
-                                                                                                                                                    .show();
+                                                                                                                                        pd.dismiss();
 
-                                                                                                                                            pd.dismiss();
-
-                                                                                                                                            break;
-                                                                                                                                        }
-
+                                                                                                                                        break;
                                                                                                                                     }
 
                                                                                                                                 }
@@ -451,20 +455,18 @@ public class BookingFragment extends Fragment {
 
                                                                                                                         }
 
+                                                                                                                    }
+
 
                                                                                                                     }
                                                                                                                 }
                                                                                                             }
                                                                                                             break;
-                                                                                                        }
+
 
                                                                                                     }
 
-                                                                                                    if (!checkDate.equals(date))
-                                                                                                        addDate(date);
-
                                                                                                     slotRef=dbRef.child("Slot");
-
 
                                                                                                     ValueEventListener slotListener=new ValueEventListener() {
 
@@ -485,6 +487,8 @@ public class BookingFragment extends Fragment {
                                                                                                                     id=ds.child("userId").getValue(String.class);
                                                                                                                     assert id != null;
                                                                                                                     Intent intent=new Intent(refActivity, BookingConfirmedActivity.class);
+
+                                                                                                                    //Toast.makeText(getActivity(),companyFlag,Toast.LENGTH_LONG).show();
 
                                                                                                                     switch (companyFlag) {
 
