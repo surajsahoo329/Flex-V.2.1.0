@@ -125,7 +125,7 @@ public class SlotFragment extends Fragment {
                             tvActiveSlots.setVisibility(View.VISIBLE);
                             relativeLayout.setVisibility(View.VISIBLE);
 
-                            String id = ds.child("userId").getValue(String.class);
+                            String id=ds.child("slotId").getValue(String.class);
                             String date = ds.child("showDate").getValue(String.class);
                             String stTime = ds.child("showStartTime").getValue(String.class);
                             String hours=ds.child("showWorkHours").getValue(String.class);
@@ -286,6 +286,12 @@ public class SlotFragment extends Fragment {
 
                                         final String modTime=String.valueOf(modDateArr) + ", " + stTime + " | " + hours;
 
+                                        if (slotFlag == 1) {
+                                            tvCompany.setText("E-kart Logistics");
+                                            tvAddress.setText("Baramunda, Bhubaneswar");
+                                            ivCompany.setImageResource(R.drawable.ic_flipkart);
+
+                                        }
                                         if (slotFlag == 2) {
                                             tvCompany.setText("Fedex");
                                             tvAddress.setText("Master Canteen, Bhubaneswar");
@@ -297,9 +303,7 @@ public class SlotFragment extends Fragment {
                                         } else if (slotFlag == 4) {
                                             tvCompany.setText("Delhivery");
                                             tvAddress.setText("Nayapalli, Bhubaneswar");
-                                            Glide.with(refActivity)
-                                                    .load("https://nexusvp.com/wp-content/uploads/2014/04/oie_JbUn8ia6Q3Zq.png")
-                                                    .into(ivCompany);
+                                            ivCompany.setImageResource(R.drawable.ic_delhivery);
                                         } else if (slotFlag == 5) {
                                             tvCompany.setText("Blue Dart");
                                             tvAddress.setText("Kharbela Nagar, Bhubaneswar");
@@ -557,6 +561,12 @@ public class SlotFragment extends Fragment {
 
                                         final String modTime=String.valueOf(modDateArr) + ", " + stTime + " | " + hours;
 
+                                        if (slotFlag == 1) {
+                                            tvCompany.setText("E-kart logistics");
+                                            tvAddress.setText("Baramunda, Bhubaneswar");
+                                            ivCompany.setImageResource(R.drawable.ic_flipkart);
+                                        }
+
                                         if (slotFlag == 2) {
                                             tvCompany.setText("Fedex");
                                             tvAddress.setText("Master Canteen, Bhubaneswar");
@@ -568,9 +578,7 @@ public class SlotFragment extends Fragment {
                                         } else if (slotFlag == 4) {
                                             tvCompany.setText("Delhivery");
                                             tvAddress.setText("Nayapalli, Bhubaneswar");
-                                            Glide.with(refActivity)
-                                                    .load("https://nexusvp.com/wp-content/uploads/2014/04/oie_JbUn8ia6Q3Zq.png")
-                                                    .into(ivCompany);
+                                            ivCompany.setImageResource(R.drawable.ic_delhivery);
                                         } else if (slotFlag == 5) {
                                             tvCompany.setText("Blue Dart");
                                             tvAddress.setText("Kharbela Nagar, Bhubaneswar");
