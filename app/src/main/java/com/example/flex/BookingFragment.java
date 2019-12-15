@@ -21,7 +21,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -462,8 +461,6 @@ public class BookingFragment extends Fragment {
                                                                                                         }
 
                                                                                                     }
-
-                                                                                                    Toast.makeText(getActivity(), checkDate, Toast.LENGTH_LONG).show();
 
                                                                                                     assert checkDate != null;
                                                                                                     if (!checkDate.equals(date)) // if date is not assigned add new date after loop
